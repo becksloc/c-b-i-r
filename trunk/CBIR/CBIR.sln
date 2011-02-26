@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Image Features Extraction", "Image Features Extraction\Image Features Extraction.csproj", "{E88946FE-EDD7-4F29-8CF0-A4DF43F44DA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Image Content Search", "Image Content Search\Image Content Search.csproj", "{F3C61619-D334-4D71-A1A8-63C44EEBDFA8}"
+EndProject
+Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E88946FE-EDD7-4F29-8CF0-A4DF43F44DA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E88946FE-EDD7-4F29-8CF0-A4DF43F44DA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E88946FE-EDD7-4F29-8CF0-A4DF43F44DA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E88946FE-EDD7-4F29-8CF0-A4DF43F44DA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3C61619-D334-4D71-A1A8-63C44EEBDFA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3C61619-D334-4D71-A1A8-63C44EEBDFA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3C61619-D334-4D71-A1A8-63C44EEBDFA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3C61619-D334-4D71-A1A8-63C44EEBDFA8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
