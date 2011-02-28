@@ -15,5 +15,14 @@ namespace Image_Content_Search
         {
             InitializeComponent();
         }
+
+        private void btnBrowseImage_Click(object sender, EventArgs e)
+        {
+            if (ofdBrowseImage.ShowDialog(this) == DialogResult.OK)
+            {
+                //Hien thi anh len pbImageTarget
+
+            }
+        }
     }
 }
