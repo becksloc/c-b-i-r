@@ -11,7 +11,7 @@ namespace Image_Processing_Library
     public class ZinImageLib
     {
         #region Chuyển sang ảnh nhị phân ( đen trắng )
-        public static bool ToBinary(Bitmap b, int n)
+        public static bool ToBinaryImage(Bitmap b, int n)
         {
             BitmapData data = b.LockBits(new Rectangle(0, 0, b.Width, b.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
             int stride = data.Stride;
@@ -84,6 +84,25 @@ namespace Image_Processing_Library
 
             return true;
         }
+
+        public static Bitmap ToGrayScale2(Bitmap b)
+        {
+            Bitmap bmTemp = new Bitmap(b);
+            int x, y;
+            Color c;
+            Byte bGray;
+            for (y = 0; y < b.Height - 1; y++)
+            {
+                for (x = 0; x < b.Width - 1; x++)
+                {
+                    c = b.GetPixel(x, y);
+                    bGray = Convert.ToByte(c.R * 0.287 + c.G * 0.599 + c.B * 0.114);
+                    bmTemp.SetPixel(x, y, Color.FromArgb(bGray, bGray, bGray));
+                }
+            }
+            return bmTemp;
+        }
+
         #endregion
 
         #region Resize ảnh

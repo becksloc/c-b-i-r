@@ -38,6 +38,8 @@
             this.ilResult = new System.Windows.Forms.ImageList(this.components);
             this.ofdBrowseImage = new System.Windows.Forms.OpenFileDialog();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtThreshold = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbImageTarget)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -73,6 +75,7 @@
             this.pbImageTarget.Location = new System.Drawing.Point(18, 27);
             this.pbImageTarget.Name = "pbImageTarget";
             this.pbImageTarget.Size = new System.Drawing.Size(207, 223);
+            this.pbImageTarget.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbImageTarget.TabIndex = 0;
             this.pbImageTarget.TabStop = false;
             // 
@@ -88,12 +91,13 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(146, 53);
+            this.btnSearch.Location = new System.Drawing.Point(187, 53);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(82, 23);
             this.btnSearch.TabIndex = 5;
             this.btnSearch.Text = "Tìm kiếm >>>";
             this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // ilResult
             // 
@@ -103,7 +107,7 @@
             // 
             // ofdBrowseImage
             // 
-            this.ofdBrowseImage.Filter = "Ảnh Bitmap|*.bmp";
+            this.ofdBrowseImage.Filter = "Tất cả|*.*|Ảnh Bitmap|*.bmp";
             // 
             // groupBox1
             // 
@@ -115,11 +119,29 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ảnh cần tìm";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(25, 392);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(78, 13);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Ngưỡng xấp xỉ:";
+            // 
+            // txtThreshold
+            // 
+            this.txtThreshold.Location = new System.Drawing.Point(109, 392);
+            this.txtThreshold.Name = "txtThreshold";
+            this.txtThreshold.Size = new System.Drawing.Size(82, 20);
+            this.txtThreshold.TabIndex = 9;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(871, 525);
+            this.Controls.Add(this.txtThreshold);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.btnBrowseImage);
@@ -146,6 +168,8 @@
         private System.Windows.Forms.ImageList ilResult;
         private System.Windows.Forms.OpenFileDialog ofdBrowseImage;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtThreshold;
     }
 }
 
