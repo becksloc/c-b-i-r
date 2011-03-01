@@ -29,18 +29,27 @@ namespace Image_Content_Search
                 //ZinImageLib.ToGrayScale(bmTarget);
                 //bmTarget = ZinImageLib.ToGrayScale2(bmTarget);
                 //bmTarget = ZinImageLib.RotateImage(bmTarget, 45f);
-
-                
+             
                 pbImageTarget.Image = bmTarget;
 
                 //MessageBox.Show(bmTarget.VerticalResolution.ToString() + "--" + bmTarget.HorizontalResolution.ToString());
 
-                Color temp;
+                //Vẽ lưới 10 * 10 lên ảnh xem nào
+                int iCellWidth = bmTarget.Width / 10;
+                int iCellHeight = bmTarget.Height / 10;
                 for (int i = 0; i < bmTarget.Width; i++)
-                    for (int j = 0; j < bmTarget.Height; j++)
+                    if (i % iCellWidth == 0)
                     {
-                        temp = bmTarget.GetPixel(i, j);
+                        for (int j = 0; j < bmTarget.Height; j++)
+                        {
+                            bmTarget.SetPixel(i, j, Color.FromArgb(255, 0, 0));
+                        }
                     }
+
+                for (int j = 0; j < bmTarget.Height; j++)
+                    if (j % iCellHeight == 0)
+                        for (int i = 0; i < bmTarget.Width; i++)
+                            bmTarget.SetPixel(i, j, Color.Red);
             }
         }
 
