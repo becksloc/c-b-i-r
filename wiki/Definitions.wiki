@@ -1,11 +1,4 @@
-#summary One-sentence summary of this page.
-
-= Introduction =
-
-Definitions of Common Terms and Some Simple Shape Measurements
-
-
-= Details =
+Definitions of Common Terms and Some Simple Shape Measurements.
 
 _The following are some important terms associated with shape description:_
   * Major axis: the straight line segment joining the two points on the boundary furthest away fr
