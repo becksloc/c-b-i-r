@@ -41,10 +41,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtThreshold = new System.Windows.Forms.TextBox();
             this.gpObject = new System.Windows.Forms.GroupBox();
+            this.pbExtractedObject = new System.Windows.Forms.PictureBox();
             this.btnNextObject = new System.Windows.Forms.Button();
             this.btnPrevObject = new System.Windows.Forms.Button();
             this.gpFeatures = new System.Windows.Forms.GroupBox();
-            this.pbExtractedObject = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbQueryImage)).BeginInit();
             this.gbQuery.SuspendLayout();
             this.gpObject.SuspendLayout();
@@ -150,7 +150,16 @@
             this.gpObject.Size = new System.Drawing.Size(241, 152);
             this.gpObject.TabIndex = 10;
             this.gpObject.TabStop = false;
-            this.gpObject.Text = "Đối tượng được tách ra";
+            this.gpObject.Text = "Đối tượng được tách ra (HCN cơ sở)";
+            // 
+            // pbExtractedObject
+            // 
+            this.pbExtractedObject.Location = new System.Drawing.Point(18, 19);
+            this.pbExtractedObject.Name = "pbExtractedObject";
+            this.pbExtractedObject.Size = new System.Drawing.Size(207, 121);
+            this.pbExtractedObject.TabIndex = 0;
+            this.pbExtractedObject.TabStop = false;
+            this.pbExtractedObject.Paint += new System.Windows.Forms.PaintEventHandler(this.pbExtractedObject_Paint);
             // 
             // btnNextObject
             // 
@@ -178,15 +187,6 @@
             this.gpFeatures.TabIndex = 13;
             this.gpFeatures.TabStop = false;
             this.gpFeatures.Text = "Đặc trưng của đối tượng";
-            // 
-            // pbExtractedObject
-            // 
-            this.pbExtractedObject.Location = new System.Drawing.Point(18, 19);
-            this.pbExtractedObject.Name = "pbExtractedObject";
-            this.pbExtractedObject.Size = new System.Drawing.Size(207, 121);
-            this.pbExtractedObject.TabIndex = 0;
-            this.pbExtractedObject.TabStop = false;
-            this.pbExtractedObject.Paint += new System.Windows.Forms.PaintEventHandler(this.pbExtractedObject_Paint);
             // 
             // frmMain
             // 
