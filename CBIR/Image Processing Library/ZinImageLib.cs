@@ -431,7 +431,7 @@ namespace Image_Processing_Library
 
         /// <summary>
         /// Tìm HCN cơ sở bao khít đối tượng (shape), có độ dài = trục chính của đối tượng
-        /// (Tạm thời chỉ sử dụng ảnh Nhị phân)
+        /// (Tạm thời chỉ sử dụng ảnh Nhị phân nền trắng, hình đen)
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
