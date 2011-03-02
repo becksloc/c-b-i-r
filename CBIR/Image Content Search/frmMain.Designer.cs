@@ -32,16 +32,20 @@
             this.lvResult = new System.Windows.Forms.ListView();
             this.gbImageDetail = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.pbImageTarget = new System.Windows.Forms.PictureBox();
+            this.pbQueryImage = new System.Windows.Forms.PictureBox();
             this.btnBrowseImage = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
             this.ilResult = new System.Windows.Forms.ImageList(this.components);
             this.ofdBrowseImage = new System.Windows.Forms.OpenFileDialog();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gbQuery = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtThreshold = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pbImageTarget)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            this.gpObject = new System.Windows.Forms.GroupBox();
+            this.btnNextObject = new System.Windows.Forms.Button();
+            this.btnPrevObject = new System.Windows.Forms.Button();
+            this.gpFeatures = new System.Windows.Forms.GroupBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pbQueryImage)).BeginInit();
+            this.gbQuery.SuspendLayout();
             this.SuspendLayout();
             // 
             // lvResult
@@ -54,9 +58,9 @@
             // 
             // gbImageDetail
             // 
-            this.gbImageDetail.Location = new System.Drawing.Point(297, 392);
+            this.gbImageDetail.Location = new System.Drawing.Point(521, 392);
             this.gbImageDetail.Name = "gbImageDetail";
-            this.gbImageDetail.Size = new System.Drawing.Size(547, 108);
+            this.gbImageDetail.Size = new System.Drawing.Size(323, 141);
             this.gbImageDetail.TabIndex = 1;
             this.gbImageDetail.TabStop = false;
             this.gbImageDetail.Text = "Thông tin chi tiết của ảnh (đã chọn ở trên)";
@@ -70,18 +74,18 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "Kết quả tìm kiếm:";
             // 
-            // pbImageTarget
+            // pbQueryImage
             // 
-            this.pbImageTarget.Location = new System.Drawing.Point(18, 27);
-            this.pbImageTarget.Name = "pbImageTarget";
-            this.pbImageTarget.Size = new System.Drawing.Size(207, 223);
-            this.pbImageTarget.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbImageTarget.TabIndex = 0;
-            this.pbImageTarget.TabStop = false;
+            this.pbQueryImage.Location = new System.Drawing.Point(18, 19);
+            this.pbQueryImage.Name = "pbQueryImage";
+            this.pbQueryImage.Size = new System.Drawing.Size(207, 213);
+            this.pbQueryImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbQueryImage.TabIndex = 0;
+            this.pbQueryImage.TabStop = false;
             // 
             // btnBrowseImage
             // 
-            this.btnBrowseImage.Location = new System.Drawing.Point(28, 53);
+            this.btnBrowseImage.Location = new System.Drawing.Point(28, 350);
             this.btnBrowseImage.Name = "btnBrowseImage";
             this.btnBrowseImage.Size = new System.Drawing.Size(80, 23);
             this.btnBrowseImage.TabIndex = 0;
@@ -91,7 +95,7 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(187, 53);
+            this.btnSearch.Location = new System.Drawing.Point(187, 51);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(82, 23);
             this.btnSearch.TabIndex = 5;
@@ -109,20 +113,20 @@
             // 
             this.ofdBrowseImage.Filter = "Tất cả|*.*|Ảnh Bitmap|*.bmp";
             // 
-            // groupBox1
+            // gbQuery
             // 
-            this.groupBox1.Controls.Add(this.pbImageTarget);
-            this.groupBox1.Location = new System.Drawing.Point(28, 95);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(241, 278);
-            this.groupBox1.TabIndex = 7;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Ảnh cần tìm";
+            this.gbQuery.Controls.Add(this.pbQueryImage);
+            this.gbQuery.Location = new System.Drawing.Point(28, 95);
+            this.gbQuery.Name = "gbQuery";
+            this.gbQuery.Size = new System.Drawing.Size(241, 249);
+            this.gbQuery.TabIndex = 7;
+            this.gbQuery.TabStop = false;
+            this.gbQuery.Text = "Ảnh cần tìm";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(25, 392);
+            this.label2.Location = new System.Drawing.Point(25, 53);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(78, 13);
             this.label2.TabIndex = 8;
@@ -130,19 +134,59 @@
             // 
             // txtThreshold
             // 
-            this.txtThreshold.Location = new System.Drawing.Point(109, 392);
+            this.txtThreshold.Location = new System.Drawing.Point(104, 52);
             this.txtThreshold.Name = "txtThreshold";
-            this.txtThreshold.Size = new System.Drawing.Size(82, 20);
+            this.txtThreshold.Size = new System.Drawing.Size(44, 20);
             this.txtThreshold.TabIndex = 9;
+            // 
+            // gpObject
+            // 
+            this.gpObject.Location = new System.Drawing.Point(28, 392);
+            this.gpObject.Name = "gpObject";
+            this.gpObject.Size = new System.Drawing.Size(241, 141);
+            this.gpObject.TabIndex = 10;
+            this.gpObject.TabStop = false;
+            this.gpObject.Text = "Đối tượng được tách ra";
+            // 
+            // btnNextObject
+            // 
+            this.btnNextObject.Location = new System.Drawing.Point(230, 363);
+            this.btnNextObject.Name = "btnNextObject";
+            this.btnNextObject.Size = new System.Drawing.Size(39, 23);
+            this.btnNextObject.TabIndex = 12;
+            this.btnNextObject.Text = ">>";
+            this.btnNextObject.UseVisualStyleBackColor = true;
+            // 
+            // btnPrevObject
+            // 
+            this.btnPrevObject.Location = new System.Drawing.Point(187, 363);
+            this.btnPrevObject.Name = "btnPrevObject";
+            this.btnPrevObject.Size = new System.Drawing.Size(39, 23);
+            this.btnPrevObject.TabIndex = 12;
+            this.btnPrevObject.Text = "<<";
+            this.btnPrevObject.UseVisualStyleBackColor = true;
+            // 
+            // gpFeatures
+            // 
+            this.gpFeatures.Location = new System.Drawing.Point(297, 392);
+            this.gpFeatures.Name = "gpFeatures";
+            this.gpFeatures.Size = new System.Drawing.Size(197, 141);
+            this.gpFeatures.TabIndex = 13;
+            this.gpFeatures.TabStop = false;
+            this.gpFeatures.Text = "Đặc trưng của đối tượng";
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(871, 525);
+            this.ClientSize = new System.Drawing.Size(871, 556);
+            this.Controls.Add(this.gpFeatures);
+            this.Controls.Add(this.btnPrevObject);
+            this.Controls.Add(this.btnNextObject);
+            this.Controls.Add(this.gpObject);
             this.Controls.Add(this.txtThreshold);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.gbQuery);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.btnBrowseImage);
             this.Controls.Add(this.label1);
@@ -150,8 +194,8 @@
             this.Controls.Add(this.lvResult);
             this.Name = "frmMain";
             this.Text = "Tim kiem anh (su dung luoi vung)";
-            ((System.ComponentModel.ISupportInitialize)(this.pbImageTarget)).EndInit();
-            this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbQueryImage)).EndInit();
+            this.gbQuery.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -162,14 +206,18 @@
         private System.Windows.Forms.ListView lvResult;
         private System.Windows.Forms.GroupBox gbImageDetail;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.PictureBox pbImageTarget;
+        private System.Windows.Forms.PictureBox pbQueryImage;
         private System.Windows.Forms.Button btnBrowseImage;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.ImageList ilResult;
         private System.Windows.Forms.OpenFileDialog ofdBrowseImage;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gbQuery;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtThreshold;
+        private System.Windows.Forms.GroupBox gpObject;
+        private System.Windows.Forms.Button btnNextObject;
+        private System.Windows.Forms.Button btnPrevObject;
+        private System.Windows.Forms.GroupBox gpFeatures;
     }
 }
 

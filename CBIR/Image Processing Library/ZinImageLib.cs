@@ -10,6 +10,11 @@ namespace Image_Processing_Library
 {
     public class ZinImageLib
     {
+        //Các hằng số
+        public static int MajorAxisLen = 192;
+        public static int GridCols = 10;
+        public static int GridRows = 10;
+
         #region Chuyển sang ảnh nhị phân ( đen trắng )
         public static bool ToBinaryImage(Bitmap b, int n)
         {
@@ -361,5 +366,29 @@ namespace Image_Processing_Library
             return rotatedBmp;
         }
 
+        public static Rectangle[] FindRectangleBound(Image img)
+        {
+            Rectangle[] temp = new Rectangle[10];
+
+
+            return temp;
+        }
+
+        /// <summary>
+        /// Trích hình chữ nhật phủ đối tượng từ ảnh gốc
+        /// </summary>
+        /// <param name="img">ảnh gốc</param>
+        /// <param name="width">độ rộng của HCN</param>
+        /// <param name="height">độ cao của HCN</param>
+        /// <param name="x">Tọa độ x bắt đầu HCN</param>
+        /// <param name="y">Tọa độ y bắt đầu HCN</param>
+        /// <returns>Bitmap hoặc Image</returns>
+        public static Bitmap CropRectangle(Image img, int width, int height, int x, int y)
+        {
+            Rectangle rec = new Rectangle(x, y, width, height);
+            Bitmap src = new Bitmap(img);
+            Bitmap dst = src.Clone(rec, src.PixelFormat);
+            return dst;
+        }
     }
 }
