@@ -85,6 +85,20 @@
       <Name>Image Processing Library</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="ImagesDB\1.bmp" />
+    <Content Include="ImagesDB\2.bmp" />
+    <Content Include="ImagesDB\3.bmp" />
+    <Content Include="ImagesDB\4.bmp" />
+    <Content Include="ImagesDB\vuong.bmp" />
+    <Content Include="ImagesDB\vuong.gif" />
+    <Content Include="ImagesDB\vuong.jpg" />
+    <Content Include="ImagesDB\vuong.png" />
+    <Content Include="ImagesDB\vuong.tif" />
+    <Content Include="ImagesDB\vuong16mau.bmp" />
+    <Content Include="ImagesDB\vuong256mau.bmp" />
+    <Content Include="ImagesDB\vuong2mau.bmp" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
