@@ -44,13 +44,16 @@
             this.btnNextObject = new System.Windows.Forms.Button();
             this.btnPrevObject = new System.Windows.Forms.Button();
             this.gpFeatures = new System.Windows.Forms.GroupBox();
+            this.pbExtractedObject = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbQueryImage)).BeginInit();
             this.gbQuery.SuspendLayout();
+            this.gpObject.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbExtractedObject)).BeginInit();
             this.SuspendLayout();
             // 
             // lvResult
             // 
-            this.lvResult.Location = new System.Drawing.Point(297, 53);
+            this.lvResult.Location = new System.Drawing.Point(297, 41);
             this.lvResult.Name = "lvResult";
             this.lvResult.Size = new System.Drawing.Size(547, 320);
             this.lvResult.TabIndex = 0;
@@ -58,9 +61,9 @@
             // 
             // gbImageDetail
             // 
-            this.gbImageDetail.Location = new System.Drawing.Point(521, 392);
+            this.gbImageDetail.Location = new System.Drawing.Point(521, 380);
             this.gbImageDetail.Name = "gbImageDetail";
-            this.gbImageDetail.Size = new System.Drawing.Size(323, 141);
+            this.gbImageDetail.Size = new System.Drawing.Size(323, 152);
             this.gbImageDetail.TabIndex = 1;
             this.gbImageDetail.TabStop = false;
             this.gbImageDetail.Text = "Thông tin chi tiết của ảnh (đã chọn ở trên)";
@@ -68,7 +71,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(294, 28);
+            this.label1.Location = new System.Drawing.Point(294, 16);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(88, 13);
             this.label1.TabIndex = 4;
@@ -85,7 +88,7 @@
             // 
             // btnBrowseImage
             // 
-            this.btnBrowseImage.Location = new System.Drawing.Point(28, 350);
+            this.btnBrowseImage.Location = new System.Drawing.Point(28, 338);
             this.btnBrowseImage.Name = "btnBrowseImage";
             this.btnBrowseImage.Size = new System.Drawing.Size(80, 23);
             this.btnBrowseImage.TabIndex = 0;
@@ -95,7 +98,7 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(187, 51);
+            this.btnSearch.Location = new System.Drawing.Point(187, 39);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(82, 23);
             this.btnSearch.TabIndex = 5;
@@ -116,7 +119,7 @@
             // gbQuery
             // 
             this.gbQuery.Controls.Add(this.pbQueryImage);
-            this.gbQuery.Location = new System.Drawing.Point(28, 95);
+            this.gbQuery.Location = new System.Drawing.Point(28, 83);
             this.gbQuery.Name = "gbQuery";
             this.gbQuery.Size = new System.Drawing.Size(241, 249);
             this.gbQuery.TabIndex = 7;
@@ -126,7 +129,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(25, 53);
+            this.label2.Location = new System.Drawing.Point(25, 41);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(78, 13);
             this.label2.TabIndex = 8;
@@ -134,23 +137,24 @@
             // 
             // txtThreshold
             // 
-            this.txtThreshold.Location = new System.Drawing.Point(104, 52);
+            this.txtThreshold.Location = new System.Drawing.Point(104, 40);
             this.txtThreshold.Name = "txtThreshold";
             this.txtThreshold.Size = new System.Drawing.Size(44, 20);
             this.txtThreshold.TabIndex = 9;
             // 
             // gpObject
             // 
-            this.gpObject.Location = new System.Drawing.Point(28, 392);
+            this.gpObject.Controls.Add(this.pbExtractedObject);
+            this.gpObject.Location = new System.Drawing.Point(28, 380);
             this.gpObject.Name = "gpObject";
-            this.gpObject.Size = new System.Drawing.Size(241, 141);
+            this.gpObject.Size = new System.Drawing.Size(241, 152);
             this.gpObject.TabIndex = 10;
             this.gpObject.TabStop = false;
             this.gpObject.Text = "Đối tượng được tách ra";
             // 
             // btnNextObject
             // 
-            this.btnNextObject.Location = new System.Drawing.Point(230, 363);
+            this.btnNextObject.Location = new System.Drawing.Point(230, 351);
             this.btnNextObject.Name = "btnNextObject";
             this.btnNextObject.Size = new System.Drawing.Size(39, 23);
             this.btnNextObject.TabIndex = 12;
@@ -159,7 +163,7 @@
             // 
             // btnPrevObject
             // 
-            this.btnPrevObject.Location = new System.Drawing.Point(187, 363);
+            this.btnPrevObject.Location = new System.Drawing.Point(187, 351);
             this.btnPrevObject.Name = "btnPrevObject";
             this.btnPrevObject.Size = new System.Drawing.Size(39, 23);
             this.btnPrevObject.TabIndex = 12;
@@ -168,18 +172,27 @@
             // 
             // gpFeatures
             // 
-            this.gpFeatures.Location = new System.Drawing.Point(297, 392);
+            this.gpFeatures.Location = new System.Drawing.Point(297, 380);
             this.gpFeatures.Name = "gpFeatures";
-            this.gpFeatures.Size = new System.Drawing.Size(197, 141);
+            this.gpFeatures.Size = new System.Drawing.Size(197, 152);
             this.gpFeatures.TabIndex = 13;
             this.gpFeatures.TabStop = false;
             this.gpFeatures.Text = "Đặc trưng của đối tượng";
+            // 
+            // pbExtractedObject
+            // 
+            this.pbExtractedObject.Location = new System.Drawing.Point(18, 19);
+            this.pbExtractedObject.Name = "pbExtractedObject";
+            this.pbExtractedObject.Size = new System.Drawing.Size(207, 121);
+            this.pbExtractedObject.TabIndex = 0;
+            this.pbExtractedObject.TabStop = false;
+            this.pbExtractedObject.Paint += new System.Windows.Forms.PaintEventHandler(this.pbExtractedObject_Paint);
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(871, 556);
+            this.ClientSize = new System.Drawing.Size(871, 554);
             this.Controls.Add(this.gpFeatures);
             this.Controls.Add(this.btnPrevObject);
             this.Controls.Add(this.btnNextObject);
@@ -196,6 +209,8 @@
             this.Text = "Tim kiem anh (su dung luoi vung)";
             ((System.ComponentModel.ISupportInitialize)(this.pbQueryImage)).EndInit();
             this.gbQuery.ResumeLayout(false);
+            this.gpObject.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbExtractedObject)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -218,6 +233,7 @@
         private System.Windows.Forms.Button btnNextObject;
         private System.Windows.Forms.Button btnPrevObject;
         private System.Windows.Forms.GroupBox gpFeatures;
+        private System.Windows.Forms.PictureBox pbExtractedObject;
     }
 }
 

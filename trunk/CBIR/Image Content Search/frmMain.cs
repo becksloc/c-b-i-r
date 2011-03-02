@@ -12,6 +12,8 @@ namespace Image_Content_Search
 {
     public partial class frmMain : Form
     {
+        Bitmap bmQuery;
+
         public frmMain()
         {
             InitializeComponent();
@@ -22,7 +24,7 @@ namespace Image_Content_Search
             if (ofdBrowseImage.ShowDialog(this) == DialogResult.OK)
             {
                 //Hien thi anh len pbQueryImage
-                Bitmap bmQuery = (Bitmap)Bitmap.FromFile(ofdBrowseImage.FileName);
+                bmQuery = (Bitmap)Bitmap.FromFile(ofdBrowseImage.FileName);
 
                 //Test 1 so Function trong Lib
                 //ZinImageLib.ToBinaryImage(bmQuery, 100);
@@ -32,24 +34,10 @@ namespace Image_Content_Search
              
                 pbQueryImage.Image = bmQuery;
 
-                //MessageBox.Show(bmQuery.VerticalResolution.ToString() + "--" + bmQuery.HorizontalResolution.ToString());
-
-                //Vẽ lưới 10 * 10 lên ảnh xem nào
-                int iCellWidth = bmQuery.Width / ZinImageLib.GridCols;
-                int iCellHeight = bmQuery.Height / ZinImageLib.GridRows;
-                for (int i = 0; i < bmQuery.Width; i++)
-                    if (i % iCellWidth == 0)
-                    {
-                        for (int j = 0; j < bmQuery.Height; j++)
-                        {
-                            bmQuery.SetPixel(i, j, Color.FromArgb(255, 0, 0));
-                        }
-                    }
-
-                for (int j = 0; j < bmQuery.Height; j++)
-                    if (j % iCellHeight == 0)
-                        for (int i = 0; i < bmQuery.Width; i++)
-                            bmQuery.SetPixel(i, j, Color.Red);
+                //Tách đối tượng ra khỏi ảnh --> tạo ảnh mới chỉ chứa khít đối tượng (shape)
+                Rectangle recObject = ZinImageLib.FindRectangleBound(bmQuery);
+                Bitmap ExtractedBmp = bmQuery.Clone(recObject, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+                pbExtractedObject.Image = ExtractedBmp;
             }
         }
 
@@ -63,6 +51,16 @@ namespace Image_Content_Search
             // - Resize ảnh về kích thước sao cho trục chính luôn cố định = 192px
             // - Phủ lưới lên đối tượng này -> trích chọn -> dãy nhị phân
 
+        }
+
+        private void pbExtractedObject_Paint(object sender, PaintEventArgs e)
+        {
+            if (bmQuery != null)
+            {
+                Rectangle recObject = ZinImageLib.FindRectangleBound(bmQuery);
+                Graphics g = e.Graphics;
+                g.DrawRectangle(Pens.Red, recObject);
+            }
         }
     }
 }
