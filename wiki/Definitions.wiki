@@ -1,0 +1,22 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+Definitions of Common Terms and Some Simple Shape Measurements
+
+
+= Details =
+
+_The following are some important terms associated with shape description:_
+  * Major axis: the straight line segment joining the two points on the boundary furthest away fr
+each other.
+  * Minor axis: the straight line perpendicular to the major axis, and of such length that a rectang
+with sides parallel to major and minor axes that just encloses the boundary can be formed using the lengths of the major and minor axes.
+  * Basic rectangle: the above rectangle formed with the major and minor axes as its two sides is 
+called the basic rectangle.
+  * Eccentricity: the ratio of the major to the minor axis is called eccentricity of the boundary.
+The above shape measurements provide a rough shape representation. Thus they can be used for 
+shape indexing and retrieval. However, as they alone don't describe shape adequately, they are 
+normally used together with other shape representations. For example, the Query By Image 
+Contents (QBIC1) system of IBM uses shape area, circularity, orientation of the major axis, and 
+moment invariants for shape indexing and retrieval [5].
