@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="cMatrixLib.cs" />
+    <Compile Include="ZinImageFeature.cs" />
     <Compile Include="ZinImageLib.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -11,9 +11,10 @@ namespace Image_Processing_Library
     public class ZinImageLib
     {
         //Các hằng số
-        public static int MajorAxisLen = 192;
-        public static int GridCols = 10;
-        public static int GridRows = 10;
+        public static int MajorAxisLen = 192; //Độ dài trục chính
+        public static int CellWidth = 12; //độ rộng của Cell grid
+        public static int CellHeight = 12; //độ cao của Cell grid
+        public static int PercentCovered = 15; //ô lưới bị phủ >= 15%
 
         #region Chuyển sang ảnh nhị phân ( đen trắng )
         public static bool ToBinaryImage(Bitmap b, int n)
@@ -366,12 +367,87 @@ namespace Image_Processing_Library
             return rotatedBmp;
         }
 
-        public static Rectangle[] FindRectangleBound(Image img)
+        /// <summary>
+        /// Chiếu ảnh lên trục X (dồn cột)
+        /// </summary>
+        /// <param name="ArrPixel"></param>
+        /// <param name="b"></param>
+        private static void FindOnAxisX(out int MinX, out int MaxX, Bitmap b)
         {
-            Rectangle[] temp = new Rectangle[10];
+            int[] ArrPixel = new int[b.Width];
+            int temp;
 
+            //Chiếu ảnh lên trục X
+            for (int i = 0; i < b.Width; i++)
+            {
+                temp = 0;
+                for (int j = 0; j < b.Height; j++)
+                    if (b.GetPixel(i, j).R + b.GetPixel(i, j).G + b.GetPixel(i, j).B == 0) //điểm đen
+                    {
+                        temp++;
+                        break; //chi can temp = 1 (khac 0) la duoc roi
+                    }
 
-            return temp;
+                ArrPixel[i] = temp;
+            }
+
+            //Tìm vị trí MinX, MaxX có chứa điểm ảnh đối tượng
+            MinX = 0;
+            MaxX = ArrPixel.Length - 1; //phần tử cuối cùng của mảng
+            while (ArrPixel[MinX] == 0) MinX++;
+            while (ArrPixel[MaxX] == 0) MaxX--;
+        }
+
+        /// <summary>
+        /// Chiếu ảnh lên trục Y (dồn hàng)
+        /// </summary>
+        /// <param name="ArrPixel"></param>
+        /// <param name="b"></param>
+        private static void FindOnAxisY(out int MinY, out int MaxY, Bitmap b)
+        {
+            int[] ArrPixel = new int[b.Height];
+            int temp;
+
+            //Chiếu ảnh lên trục Y
+            for (int j = 0; j < b.Height; j++)
+            {
+                temp = 0;
+                for (int i = 0; i < b.Width; i++)
+                    if (b.GetPixel(i, j).R + b.GetPixel(i, j).G + b.GetPixel(i, j).B == 0) //điểm đen
+                    {
+                        temp++;
+                        break; //chi can temp = 1 (khac 0) la duoc roi
+                    }
+
+                ArrPixel[j] = temp;
+            }
+
+            //Tìm vị trí MinY, MaxY có chứa điểm ảnh đối tượng
+            MinY = 0;
+            MaxY = ArrPixel.Length - 1; //phần tử cuối cùng của mảng
+            while (ArrPixel[MinY] == 0) MinY++;
+            while (ArrPixel[MaxY] == 0) MaxY--;
+        }
+
+        /// <summary>
+        /// Tìm HCN cơ sở bao khít đối tượng (shape), có độ dài = trục chính của đối tượng
+        /// (Tạm thời chỉ sử dụng ảnh Nhị phân)
+        /// </summary>
+        /// <param name="img"></param>
+        /// <returns></returns>
+        public static Rectangle FindRectangleBound(Bitmap b)
+        {
+            int MinX, MaxX, MinY, MaxY;
+                        
+            //Chiếu ảnh lên trục X --> tim duoc hinh chieu tren truc X
+            FindOnAxisX(out MinX, out MaxX, b);
+
+            //Chiếu ảnh lên trục Y --> tim duoc hinh chieu tren truc Y
+            FindOnAxisY(out MinY, out MaxY, b); 
+           
+            Rectangle recResult = new Rectangle(MinX, MinY, MaxX - MinX, MaxY - MinY);
+
+            return recResult;
         }
 
         /// <summary>
