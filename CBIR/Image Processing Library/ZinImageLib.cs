@@ -466,5 +466,20 @@ namespace Image_Processing_Library
             Bitmap dst = src.Clone(rec, src.PixelFormat);
             return dst;
         }
+
+        public static double AngleMajorAndX(int x1, int y1, int x2, int y2)
+        {
+            int a = Math.Abs(x1 - x2);
+            int b = Math.Abs(y1 - y2);
+
+            double angle;
+
+            if (b == 0)
+                angle = 0;
+            else
+                angle = 90 - Math.Atan(a / b) * 180 / Math.PI;
+            
+            return angle;
+        }
     }
 }

@@ -207,6 +207,7 @@
             this.Controls.Add(this.lvResult);
             this.Name = "frmMain";
             this.Text = "Tim kiem anh (su dung luoi vung)";
+            this.Load += new System.EventHandler(this.frmMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbQueryImage)).EndInit();
             this.gbQuery.ResumeLayout(false);
             this.gpObject.ResumeLayout(false);

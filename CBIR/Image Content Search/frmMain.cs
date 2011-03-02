@@ -36,7 +36,18 @@ namespace Image_Content_Search
 
                 //Tách đối tượng ra khỏi ảnh --> tạo ảnh mới chỉ chứa khít đối tượng (shape)
                 Rectangle recObject = ZinImageLib.FindRectangleBound(bmQuery);
+                
                 Bitmap ExtractedBmp = bmQuery.Clone(recObject, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+                //pbExtractedObject.Image = ExtractedBmp;
+                
+                //A. Hòa: tìm x1, y1, x2, y2 của trục chính (dài nhất)
+                //--> tìm góc --> xoay
+                double angle = ZinImageLib.AngleMajorAndX(1, 1, 6, 5);
+                ExtractedBmp = ZinImageLib.RotateImage(ExtractedBmp, (float)angle);
+                
+                //Resize về kích thước cố định
+                ExtractedBmp = ZinImageLib.Resize(ExtractedBmp, ZinImageLib.MajorAxisLen, ZinImageLib.MajorAxisLen * ExtractedBmp.Height / ExtractedBmp.Width, false);
+
                 pbExtractedObject.Image = ExtractedBmp;
             }
         }
@@ -58,9 +69,17 @@ namespace Image_Content_Search
             if (bmQuery != null)
             {
                 Rectangle recObject = ZinImageLib.FindRectangleBound(bmQuery);
+                recObject.X = 0;
+                recObject.Y = 0;
                 Graphics g = e.Graphics;
                 g.DrawRectangle(Pens.Red, recObject);
             }
+        }
+
+        private void frmMain_Load(object sender, EventArgs e)
+        {
+            //Test thử hàm
+            //MessageBox.Show(ZinImageLib.AngleMajorAndX(6, 1, 6, 6) + " ");
         }
     }
 }
