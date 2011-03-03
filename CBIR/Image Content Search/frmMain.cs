@@ -80,6 +80,7 @@ namespace Image_Content_Search
                 //A. Hòa: trích chuỗi, trục
                 //Gán vào mFeatureQuery
                 //mFeatureQuery.BitSequence = 
+                //mFeatureQuery.MinorAxis = 
 
                 //gr.Dispose();
             }
@@ -112,7 +113,13 @@ namespace Image_Content_Search
             for (int i = s1.Length; i < MaxLen; i++) s1 += "0";
             for (int i = s2.Length; i < MaxLen; i++) s2 += "0";
 
-            return 0;
+            //Tìm số Bit khác nhau
+            int count = 0;
+            for (int i = 0; i < MaxLen; i++)
+                if (s1[i] != s2[i])
+                    count++;
+
+            return count;
         }
 
         private void frmMain_Load(object sender, EventArgs e)
