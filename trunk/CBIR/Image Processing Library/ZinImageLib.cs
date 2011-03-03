@@ -13,8 +13,8 @@ namespace Image_Processing_Library
     {
         //Các hằng số
         public static int WidthStandard = 192; //độ rộng ảnh === Độ dài trục chính (vì song song với X)
-        public static int CellWidth = 12; //độ rộng của Cell grid
-        public static int CellHeight = 12; //độ cao của Cell grid
+        public static int CellWidth = 24; //độ rộng của Cell grid
+        public static int CellHeight = 24; //độ cao của Cell grid
         public static int PercentCovered = 15; //ô lưới bị phủ >= 15%
 
         #region Chuyển sang ảnh nhị phân ( đen trắng )
@@ -540,7 +540,7 @@ namespace Image_Processing_Library
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        public static Rectangle FindRectangleBound(Bitmap b)
+        private static Rectangle FindRectangleBound(Bitmap b)
         {
             int MinX, MaxX, MinY, MaxY;
                         
@@ -564,10 +564,9 @@ namespace Image_Processing_Library
         /// <param name="x">Tọa độ x bắt đầu HCN</param>
         /// <param name="y">Tọa độ y bắt đầu HCN</param>
         /// <returns>Bitmap hoặc Image</returns>
-        public static Bitmap CropRectangle(Image img, int width, int height, int x, int y)
+        public static Bitmap ExtractShape(Bitmap src)
         {
-            Rectangle rec = new Rectangle(x, y, width, height);
-            Bitmap src = new Bitmap(img);
+            Rectangle rec = FindRectangleBound(src);
             Bitmap dst = src.Clone(rec, src.PixelFormat);
             return dst;
         }
