@@ -368,6 +368,54 @@ namespace Image_Processing_Library
         }
 
         /// <summary>
+        /// Creates a new Image containing the same image only rotated
+        /// </summary>
+        /// <param name="image">The <see cref="System.Drawing.Image"/> to rotate</param>
+        /// <param name="angle">The amount to rotate the image, clockwise, in degrees</param>
+        /// <returns>A new <see cref="System.Drawing.Bitmap"/> of the same size rotated.</returns>
+        /// <exception cref="System.ArgumentNullException">Thrown if <see cref="image"/> is null.</exception>
+        public static Bitmap RotateImage2(Image image, float angle)
+        {
+            return RotateImage2(image, new PointF((float)image.Width / 2, (float)image.Height / 2), angle);
+        }
+
+        /// <summary>
+        /// Creates a new Image containing the same image only rotated
+        /// </summary>
+        /// <param name="image">The <see cref="System.Drawing.Image"/> to rotate</param>
+        /// <param name="offset">The position to rotate from.</param>
+        /// <param name="angle">The amount to rotate the image, clockwise, in degrees</param>
+        /// <returns>A new <see cref="System.Drawing.Bitmap"/> of the same size rotated.</returns>
+        /// <exception cref="System.ArgumentNullException">Thrown if <see cref="image"/> is null.</exception>
+        public static Bitmap RotateImage2(Image image, PointF offset, float angle)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+
+            //create a new empty bitmap to hold rotated image
+            Bitmap rotatedBmp = new Bitmap(image.Width, image.Height);
+            rotatedBmp.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            //make a graphics object from the empty bitmap
+            Graphics g = Graphics.FromImage(rotatedBmp);
+
+            //Put the rotation point in the center of the image
+            g.TranslateTransform(offset.X, offset.Y);
+
+            //rotate the image
+            g.RotateTransform(angle);
+
+            //move the image back
+            g.TranslateTransform(-offset.X, -offset.Y);
+
+            //draw passed in image onto graphics object
+            g.DrawImage(image, new PointF(0, 0));
+
+            return rotatedBmp;
+        }
+
+
+        /// <summary>
         /// Chiếu ảnh lên trục X (dồn cột)
         /// </summary>
         /// <param name="ArrPixel"></param>
@@ -487,22 +535,31 @@ namespace Image_Processing_Library
             return angle;
         }
 
-        //Tô đen vùng hình dạng
+        //Tô đen vùng trong hình dạng
         public static void FillSolidBlack(Bitmap bmp)
         {
-            //Duyệt từng hàng
-            for (int i = 0; i < bmp.Height; i++)
+            //Duyệt từng cột (theo trục X)
+            for (int i = 0; i < bmp.Width; i++)
             {
-                //Duyệt từ phải
+                //Duyệt từ trên
                 int k = 0;
-                while (k < bmp.Width && bmp.GetPixel(i, k).R == 255) k++; //gặp điểm đen (biên ảnh) thì dừng
-                //Duyệt từ trái
-                int h = bmp.Width - 1;
+                while (k < bmp.Height && bmp.GetPixel(i, k).R == 255) k++; //gặp điểm đen (biên ảnh) thì dừng
+                //Duyệt từ dưới
+                int h = bmp.Height - 1;
                 while (h >= 0 && bmp.GetPixel(i, h).R == 255) h++; //gặp điểm đen (biên ảnh) thì dừng
                 //Tô đen vùng trong hình
                 for (int j = k; j < h; j++)
                     bmp.SetPixel(i, j, Color.Black);
             }
+        }
+
+        //Đổi điểm trong suốt --> trắng
+        public static void TransparentToWhite(Bitmap bmp)
+        {
+            for (int i = 0; i < bmp.Width; i++)
+                for (int j = 0; j < bmp.Height; j++)
+                    if (bmp.GetPixel(i, j).A == 0)
+                        bmp.SetPixel(i, j, Color.White);
         }
     }
 }
