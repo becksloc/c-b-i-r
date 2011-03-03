@@ -467,6 +467,7 @@ namespace Image_Processing_Library
             return dst;
         }
 
+        //Tìm góc giữa trục chính và trục X (chú ý: hàm xoay chỉ xoay theo chiều kim đồng hồ)
         public static double AngleMajorAndX(int x1, int y1, int x2, int y2)
         {
             int a = Math.Abs(x1 - x2);
@@ -484,6 +485,24 @@ namespace Image_Processing_Library
                 angle = -angle;
 
             return angle;
+        }
+
+        //Tô đen vùng hình dạng
+        public static void FillSolidBlack(Bitmap bmp)
+        {
+            //Duyệt từng hàng
+            for (int i = 0; i < bmp.Height; i++)
+            {
+                //Duyệt từ phải
+                int k = 0;
+                while (k < bmp.Width && bmp.GetPixel(i, k).R == 255) k++; //gặp điểm đen (biên ảnh) thì dừng
+                //Duyệt từ trái
+                int h = bmp.Width - 1;
+                while (h >= 0 && bmp.GetPixel(i, h).R == 255) h++; //gặp điểm đen (biên ảnh) thì dừng
+                //Tô đen vùng trong hình
+                for (int j = k; j < h; j++)
+                    bmp.SetPixel(i, j, Color.Black);
+            }
         }
     }
 }
