@@ -38,11 +38,11 @@
             this.pbExtractedObject = new System.Windows.Forms.PictureBox();
             this.btnNextObject = new System.Windows.Forms.Button();
             this.btnPrevObject = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblBitString = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbQueryImage)).BeginInit();
             this.gbQuery.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbExtractedObject)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // pbQueryImage
@@ -99,13 +99,12 @@
             this.pbExtractedObject.Location = new System.Drawing.Point(28, 380);
             this.pbExtractedObject.Name = "pbExtractedObject";
             this.pbExtractedObject.Size = new System.Drawing.Size(200, 150);
-            this.pbExtractedObject.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pbExtractedObject.TabIndex = 0;
             this.pbExtractedObject.TabStop = false;
             // 
             // btnNextObject
             // 
-            this.btnNextObject.Location = new System.Drawing.Point(71, 351);
+            this.btnNextObject.Location = new System.Drawing.Point(71, 341);
             this.btnNextObject.Name = "btnNextObject";
             this.btnNextObject.Size = new System.Drawing.Size(39, 23);
             this.btnNextObject.TabIndex = 12;
@@ -114,28 +113,39 @@
             // 
             // btnPrevObject
             // 
-            this.btnPrevObject.Location = new System.Drawing.Point(28, 351);
+            this.btnPrevObject.Location = new System.Drawing.Point(28, 341);
             this.btnPrevObject.Name = "btnPrevObject";
             this.btnPrevObject.Size = new System.Drawing.Size(39, 23);
             this.btnPrevObject.TabIndex = 12;
             this.btnPrevObject.Text = "<<";
             this.btnPrevObject.UseVisualStyleBackColor = true;
             // 
-            // pictureBox1
+            // label1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(674, 380);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(200, 150);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(305, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(81, 13);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Chuỗi nhị phân:";
+            // 
+            // lblBitString
+            // 
+            this.lblBitString.AutoSize = true;
+            this.lblBitString.ForeColor = System.Drawing.Color.Crimson;
+            this.lblBitString.Location = new System.Drawing.Point(393, 8);
+            this.lblBitString.Name = "lblBitString";
+            this.lblBitString.Size = new System.Drawing.Size(49, 13);
+            this.lblBitString.TabIndex = 14;
+            this.lblBitString.Text = "0101010";
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(900, 554);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.lblBitString);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.pbExtractedObject);
             this.Controls.Add(this.btnPrevObject);
             this.Controls.Add(this.btnNextObject);
@@ -148,8 +158,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbQueryImage)).EndInit();
             this.gbQuery.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbExtractedObject)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -164,7 +174,8 @@
         private System.Windows.Forms.Button btnNextObject;
         private System.Windows.Forms.Button btnPrevObject;
         private System.Windows.Forms.PictureBox pbExtractedObject;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblBitString;
     }
 }
 

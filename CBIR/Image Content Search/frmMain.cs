@@ -12,7 +12,7 @@ namespace Image_Content_Search
 {
     public partial class frmMain : Form
     {
-        Bitmap bmQuery;
+        Bitmap bmpQuery;
 
         public frmMain()
         {
@@ -26,7 +26,7 @@ namespace Image_Content_Search
                 Graphics gr = CreateGraphics();// Khởi tạo đồ hoạ trên form chính
                 
                 //Hien thi anh len pbQueryImage
-                bmQuery = (Bitmap)Bitmap.FromFile(ofdBrowseImage.FileName);
+                bmpQuery = (Bitmap)Bitmap.FromFile(ofdBrowseImage.FileName);
 
                 //Test 1 so Function trong Lib
                 //ZinImageLib.ToBinaryImage(bmQuery, 100);
@@ -34,32 +34,47 @@ namespace Image_Content_Search
                 //bmQuery = ZinImageLib.ToGrayScale2(bmQuery);
                 //bmQuery = ZinImageLib.RotateImage(bmQuery, 45f);
              
-                pbQueryImage.Image = bmQuery;
+                pbQueryImage.Image = bmpQuery;
 
                 //Tách đối tượng ra khỏi ảnh --> tạo ảnh mới chỉ chứa khít đối tượng (shape)
-                Rectangle recObject = ZinImageLib.FindRectangleBound(bmQuery);                
-                Bitmap bmpExtracted = bmQuery.Clone(recObject, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+                Bitmap bmpExtracted = ZinImageLib.ExtractShape(bmpQuery);
                 pbExtractedObject.Image = bmpExtracted;
                 
                 //A. Hòa: tìm x1, y1, x2, y2 của trục chính (dài nhất)
                 int x1, y1, x2, y2;
-                ImageFuncLib.getPoint(out x1, out y1, out x2, out y2, bmQuery);
+                ImageFuncLib.getPoint(out x1, out y1, out x2, out y2, bmpExtracted);
                 //Vẽ ảnh (để vẽ đường, ko dùng đc PicBox)
-                gr.DrawImage(bmQuery, 242, 380);
+                gr.DrawImage(bmpExtracted, 242, 380);
                 //Ve duong truc chinh                
-                Pen myPen = new Pen(Color.Red, 3);
+                Pen myPen = new Pen(Color.Red, 2);
                 gr.DrawLine(myPen, x1 + 242, y1 + 380, x2 + 242, y2 + 380);
 
-
-                //--> tìm góc --> xoay
+                //Tìm góc --> xoay. Sau khi xoay sẽ xuất hiện nền thừa --> tìm HCN cơ sở
                 double angle = ZinImageLib.AngleMajorAndX(x1, y1, x2, y2); //!!! Important
-                Bitmap bmpRotated = ZinImageLib.RotateImage(bmpExtracted, (float)angle);
+                Bitmap bmpRotated = ZinImageLib.RotateImage(bmpExtracted, (float)angle); //Hàm Rotate2: ko làm thay đổi size --> Ko ổn
                 //pbImageRotated.Image = bmpRotated;
+                ZinImageLib.TransparentToWhite(bmpRotated);
+                bmpRotated = ZinImageLib.ExtractShape(bmpRotated);
                 gr.DrawImage(bmpRotated, 458, 380);
 
-                gr.Dispose();
-                                //Resize về kích thước cố định
-                //bmpExtracted = ZinImageLib.Resize(bmpExtracted, ZinImageLib.MajorAxisLen, ZinImageLib.MajorAxisLen * bmpExtracted.Height / bmpExtracted.Width, false);
+                //Sau khi xoay xong thì mới Resize về kích thước cố định
+                //Bitmap bmpResized = ZinImageLib.Resize(bmpRotated, ZinImageLib.WidthStandard, ZinImageLib.WidthStandard * bmpRotated.Height / bmpRotated.Width, true);
+                Bitmap bmpResized = ZinImageLib.ResizeImage(bmpRotated, ZinImageLib.WidthStandard, ZinImageLib.WidthStandard * bmpRotated.Height / bmpRotated.Width);
+                gr.DrawImage(bmpResized, 674, 380);
+                
+                //Phủ lưới lên
+                for (int i = 0; i < bmpResized.Width; i++)
+                    if (i % ZinImageLib.CellWidth == 0)
+                    {
+                        gr.DrawLine(Pens.Red, i + 674, 0 + 380, i + 674, bmpResized.Height + 380);
+                    }
+
+                for (int j = 0; j < bmpResized.Height; j++)
+                    if (j % ZinImageLib.CellHeight == 0)
+                        gr.DrawLine(Pens.Red, 0 + 674, j + 380, bmpResized.Width + 674, j + 380);
+
+
+                //gr.Dispose();
             }
         }
 
@@ -83,12 +98,8 @@ namespace Image_Content_Search
 
         protected override void OnPaint(PaintEventArgs e)
         {
-
+            //Override??? Cái này phải để đây để Draw ngoài sự kiện Paint???
         }
 
-        private void frmMain_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
     }
 }
