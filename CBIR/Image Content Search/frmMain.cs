@@ -7,13 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Image_Processing_Library;
+using System.IO;
 
 namespace Image_Content_Search
 {
     public partial class frmMain : Form
     {
-        Bitmap bmpQuery;
-
+        string mPath;
+        List<FeatureInfo> mListFeatureDB;
+        FeatureInfo mFeatureQuery;
+        
         public frmMain()
         {
             InitializeComponent();
@@ -26,7 +29,7 @@ namespace Image_Content_Search
                 Graphics gr = CreateGraphics();// Khởi tạo đồ hoạ trên form chính
                 
                 //Hien thi anh len pbQueryImage
-                bmpQuery = (Bitmap)Bitmap.FromFile(ofdBrowseImage.FileName);
+                Bitmap bmpQuery = (Bitmap)Bitmap.FromFile(ofdBrowseImage.FileName);
 
                 //Test 1 so Function trong Lib
                 //ZinImageLib.ToBinaryImage(bmQuery, 100);
@@ -74,6 +77,10 @@ namespace Image_Content_Search
                         gr.DrawLine(Pens.Red, 0 + 674, j + 380, bmpResized.Width + 674, j + 380);
 
 
+                //A. Hòa: trích chuỗi, trục
+                //Gán vào mFeatureQuery
+                //mFeatureQuery.BitSequence = 
+
                 //gr.Dispose();
             }
         }
@@ -88,12 +95,20 @@ namespace Image_Content_Search
             // - Resize ảnh về kích thước sao cho trục chính luôn cố định = 192px
             // - Phủ lưới lên đối tượng này -> trích chọn -> dãy nhị phân
 
+            //Đọc file đặc trưng (XML) --> lưu vào List
+            FeatureController objCtrl = new FeatureController(mPath);
+            mListFeatureDB = objCtrl.GetAll();
+
+            //So sánh, nếu BitSeq khác nhau bao nhiêu thì OK
+            //for (int i = 0; i < mListFeatureDB.Count; i++)
+
         }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            //Test thử hàm
-            //MessageBox.Show(ZinImageLib.AngleMajorAndX(6, 1, 6, 6) + " ");
+            //Set path
+            mPath = Directory.GetCurrentDirectory();
+            //mPath = Application.StartupPath;
         }
 
         protected override void OnPaint(PaintEventArgs e)
