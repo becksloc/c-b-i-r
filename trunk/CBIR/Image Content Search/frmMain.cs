@@ -23,6 +23,8 @@ namespace Image_Content_Search
         {
             if (ofdBrowseImage.ShowDialog(this) == DialogResult.OK)
             {
+                Graphics gr = CreateGraphics();// Khởi tạo đồ hoạ trên form chính
+                
                 //Hien thi anh len pbQueryImage
                 bmQuery = (Bitmap)Bitmap.FromFile(ofdBrowseImage.FileName);
 
@@ -35,20 +37,29 @@ namespace Image_Content_Search
                 pbQueryImage.Image = bmQuery;
 
                 //Tách đối tượng ra khỏi ảnh --> tạo ảnh mới chỉ chứa khít đối tượng (shape)
-                Rectangle recObject = ZinImageLib.FindRectangleBound(bmQuery);
-                
-                Bitmap ExtractedBmp = bmQuery.Clone(recObject, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-                //pbExtractedObject.Image = ExtractedBmp;
+                Rectangle recObject = ZinImageLib.FindRectangleBound(bmQuery);                
+                Bitmap bmpExtracted = bmQuery.Clone(recObject, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+                pbExtractedObject.Image = bmpExtracted;
                 
                 //A. Hòa: tìm x1, y1, x2, y2 của trục chính (dài nhất)
-                //--> tìm góc --> xoay
-                double angle = ZinImageLib.AngleMajorAndX(1, 1, 6, 5);
-                ExtractedBmp = ZinImageLib.RotateImage(ExtractedBmp, (float)angle);
-                
-                //Resize về kích thước cố định
-                ExtractedBmp = ZinImageLib.Resize(ExtractedBmp, ZinImageLib.MajorAxisLen, ZinImageLib.MajorAxisLen * ExtractedBmp.Height / ExtractedBmp.Width, false);
+                int x1, y1, x2, y2;
+                ImageFuncLib.getPoint(out x1, out y1, out x2, out y2, bmQuery);
+                //Vẽ ảnh (để vẽ đường, ko dùng đc PicBox)
+                gr.DrawImage(bmQuery, 242, 380);
+                //Ve duong truc chinh                
+                Pen myPen = new Pen(Color.Red, 3);
+                gr.DrawLine(myPen, x1 + 242, y1 + 380, x2 + 242, y2 + 380);
 
-                pbExtractedObject.Image = ExtractedBmp;
+
+                //--> tìm góc --> xoay
+                double angle = ZinImageLib.AngleMajorAndX(x1, y1, x2, y2); //!!! Important
+                Bitmap bmpRotated = ZinImageLib.RotateImage(bmpExtracted, (float)angle);
+                //pbImageRotated.Image = bmpRotated;
+                gr.DrawImage(bmpRotated, 458, 380);
+
+                gr.Dispose();
+                                //Resize về kích thước cố định
+                //bmpExtracted = ZinImageLib.Resize(bmpExtracted, ZinImageLib.MajorAxisLen, ZinImageLib.MajorAxisLen * bmpExtracted.Height / bmpExtracted.Width, false);
             }
         }
 
@@ -64,22 +75,20 @@ namespace Image_Content_Search
 
         }
 
-        private void pbExtractedObject_Paint(object sender, PaintEventArgs e)
-        {
-            if (bmQuery != null)
-            {
-                Rectangle recObject = ZinImageLib.FindRectangleBound(bmQuery);
-                recObject.X = 0;
-                recObject.Y = 0;
-                Graphics g = e.Graphics;
-                g.DrawRectangle(Pens.Red, recObject);
-            }
-        }
-
         private void frmMain_Load(object sender, EventArgs e)
         {
             //Test thử hàm
             //MessageBox.Show(ZinImageLib.AngleMajorAndX(6, 1, 6, 6) + " ");
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+
+        }
+
+        private void frmMain_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
