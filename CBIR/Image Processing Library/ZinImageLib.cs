@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
 
 
 namespace Image_Processing_Library
@@ -11,7 +12,7 @@ namespace Image_Processing_Library
     public class ZinImageLib
     {
         //Các hằng số
-        public static int MajorAxisLen = 192; //Độ dài trục chính
+        public static int WidthStandard = 192; //độ rộng ảnh === Độ dài trục chính (vì song song với X)
         public static int CellWidth = 12; //độ rộng của Cell grid
         public static int CellHeight = 12; //độ cao của Cell grid
         public static int PercentCovered = 15; //ô lưới bị phủ >= 15%
@@ -112,6 +113,7 @@ namespace Image_Processing_Library
         #endregion
 
         #region Resize ảnh
+        //??? phai dung bBilinear ???
         public static Bitmap Resize(Bitmap b, int nWidth, int nHeight, bool bBilinear)
         {
             Bitmap btemp = (Bitmap)b.Clone();
@@ -191,6 +193,61 @@ namespace Image_Processing_Library
             }
             return b;
         }
+
+        //Resize Image without Pixel collapse in c# - http://www.dotnetspider.com
+        public static Bitmap ResizeImage(Bitmap mg, int width, int height)
+        {
+            Size newSize = new Size(width, height);
+
+            double ratio = 0d;
+            double myThumbWidth = 0d;
+            double myThumbHeight = 0d;
+
+            int x = 0;
+            int y = 0;
+
+            bool TrimHeight = false;
+            bool TrimWidth = false;
+
+            Bitmap bp = new Bitmap(newSize.Width, newSize.Height);
+
+            if ((mg.Width / Convert.ToDouble(newSize.Width)) > (mg.Height /
+            Convert.ToDouble(newSize.Height)))
+            {
+                ratio = Convert.ToDouble(mg.Width) / Convert.ToDouble(newSize.Width);
+                TrimHeight = true;
+            }
+            else
+            {
+                ratio = Convert.ToDouble(mg.Height) / Convert.ToDouble(newSize.Height);
+                TrimWidth = true;
+            }
+            myThumbHeight = Math.Ceiling(mg.Height / ratio);
+            myThumbWidth = Math.Ceiling(mg.Width / ratio);
+
+            Size thumbSize = new Size((int)myThumbWidth, (int)myThumbHeight);
+            if (TrimHeight)
+            {
+                bp = new Bitmap(newSize.Width, thumbSize.Height);
+                TrimHeight = false;
+            }
+            if (TrimWidth)
+            {
+                bp = new Bitmap(thumbSize.Width, newSize.Height);
+                TrimWidth = false;
+            }
+            x = (newSize.Width - thumbSize.Width);
+            y = (newSize.Height - thumbSize.Height);
+            // Had to add System.Drawing class in front of Graphics ---
+            System.Drawing.Graphics g = Graphics.FromImage(bp);
+            g.SmoothingMode = SmoothingMode.HighQuality;
+            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            Rectangle rect = new Rectangle(0, 0, thumbSize.Width, thumbSize.Height);
+            g.DrawImage(mg, rect, 0, 0, mg.Width, mg.Height, GraphicsUnit.Pixel);
+            return bp;
+        }
+
         #endregion
 
         /// <summary>
