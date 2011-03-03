@@ -18,7 +18,7 @@ namespace Image_Processing_Library
             x1 = 0; y1 = 0; x2 = 0; y2 = 0;
 
             //Chuyen diem anh vao mang arrImage (gia tri 1->diem anh den, 0->diem anh trang)
-            byte[,] arrImage = new byte[2000, 2000];
+            byte[,] arrImage = new byte[40000, 40000];
             int i, j;
             for (i = 0; i < bmQuery.Width; i++)
                 for (j = 0; j < bmQuery.Height; j++)
@@ -30,7 +30,7 @@ namespace Image_Processing_Library
             //////Tim 2 diem xa nhat
             //Luu lai toa do cac diem anh den (gia tri 1)
             int k = 0, n;
-            int[,] arrTg = new int[2000, 2];
+            int[,] arrTg = new int[1000000, 2];
             for (i = 0; i < bmQuery.Width; i++)
                 for (j = 0; j < bmQuery.Height; j++)
                     if (arrImage[i, j] == 1)
