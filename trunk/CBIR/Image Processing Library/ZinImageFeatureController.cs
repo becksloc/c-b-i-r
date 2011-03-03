@@ -7,7 +7,7 @@ using System.Xml;
 namespace Image_Processing_Library
 {
     //Lop thao tac voi XML (luu du lieu vao  m_xmlDocument)
-    class FeatureController
+    public class FeatureController
     {
         private XmlDocument m_xmlDocument;
         private string m_filePath;

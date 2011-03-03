@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Image_Processing_Library
 {
-    class FeatureInfo
+    public class FeatureInfo
     {
         string m_BitSequence; //xâu nhị phân 0 & 1
         int m_Eccentricity; //Tâm = tỉ lệ Major Axis / Minor Axis
