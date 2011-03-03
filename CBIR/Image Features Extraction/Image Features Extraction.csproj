@@ -80,12 +80,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Image Processing Library\Image Processing Library.csproj">
-      <Project>{906128A2-1951-4A18-A303-CFE309D8A11D}</Project>
-      <Name>Image Processing Library</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="ImagesDB\1.bmp" />
     <Content Include="ImagesDB\2.bmp" />
     <Content Include="ImagesDB\3.bmp" />
@@ -98,6 +92,12 @@
     <Content Include="ImagesDB\vuong16mau.bmp" />
     <Content Include="ImagesDB\vuong256mau.bmp" />
     <Content Include="ImagesDB\vuong2mau.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Image Processing Library\Image Processing Library.csproj">
+      <Project>{906128A2-1951-4A18-A303-CFE309D8A11D}</Project>
+      <Name>Image Processing Library</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
