@@ -37,6 +37,9 @@
             this.btnExtract = new System.Windows.Forms.Button();
             this.ofdBrowseImage = new System.Windows.Forms.OpenFileDialog();
             this.ilResult = new System.Windows.Forms.ImageList(this.components);
+            this.btnTimTrucchinh = new System.Windows.Forms.Button();
+            this.lblThongtin = new System.Windows.Forms.Label();
+            this.gbImageDetail.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -50,6 +53,7 @@
             // 
             // gbImageDetail
             // 
+            this.gbImageDetail.Controls.Add(this.lblThongtin);
             this.gbImageDetail.Location = new System.Drawing.Point(32, 405);
             this.gbImageDetail.Name = "gbImageDetail";
             this.gbImageDetail.Size = new System.Drawing.Size(598, 108);
@@ -59,15 +63,15 @@
             // 
             // lvResult
             // 
-            this.lvResult.Location = new System.Drawing.Point(32, 66);
+            this.lvResult.Location = new System.Drawing.Point(32, 371);
             this.lvResult.Name = "lvResult";
-            this.lvResult.Size = new System.Drawing.Size(598, 320);
+            this.lvResult.Size = new System.Drawing.Size(29, 15);
             this.lvResult.TabIndex = 5;
             this.lvResult.UseCompatibleStateImageBehavior = false;
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(259, 31);
+            this.btnAdd.Location = new System.Drawing.Point(187, 36);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 8;
@@ -76,7 +80,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(354, 31);
+            this.btnDelete.Location = new System.Drawing.Point(268, 36);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 9;
@@ -85,7 +89,7 @@
             // 
             // btnExtract
             // 
-            this.btnExtract.Location = new System.Drawing.Point(502, 31);
+            this.btnExtract.Location = new System.Drawing.Point(474, 37);
             this.btnExtract.Name = "btnExtract";
             this.btnExtract.Size = new System.Drawing.Size(128, 23);
             this.btnExtract.TabIndex = 10;
@@ -95,6 +99,7 @@
             // ofdBrowseImage
             // 
             this.ofdBrowseImage.Filter = "Ảnh Bitmap|*.bmp";
+            this.ofdBrowseImage.FileOk += new System.ComponentModel.CancelEventHandler(this.ofdBrowseImage_FileOk);
             // 
             // ilResult
             // 
@@ -102,11 +107,31 @@
             this.ilResult.ImageSize = new System.Drawing.Size(16, 16);
             this.ilResult.TransparentColor = System.Drawing.Color.Transparent;
             // 
+            // btnTimTrucchinh
+            // 
+            this.btnTimTrucchinh.Location = new System.Drawing.Point(349, 36);
+            this.btnTimTrucchinh.Name = "btnTimTrucchinh";
+            this.btnTimTrucchinh.Size = new System.Drawing.Size(100, 24);
+            this.btnTimTrucchinh.TabIndex = 11;
+            this.btnTimTrucchinh.Text = "Tìm trục chính";
+            this.btnTimTrucchinh.UseVisualStyleBackColor = true;
+            this.btnTimTrucchinh.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // lblThongtin
+            // 
+            this.lblThongtin.AutoSize = true;
+            this.lblThongtin.Location = new System.Drawing.Point(6, 28);
+            this.lblThongtin.Name = "lblThongtin";
+            this.lblThongtin.Size = new System.Drawing.Size(52, 13);
+            this.lblThongtin.TabIndex = 0;
+            this.lblThongtin.Text = "Thong tin";
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(662, 535);
+            this.ClientSize = new System.Drawing.Size(713, 535);
+            this.Controls.Add(this.btnTimTrucchinh);
             this.Controls.Add(this.btnExtract);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnAdd);
@@ -115,6 +140,9 @@
             this.Controls.Add(this.lvResult);
             this.Name = "frmMain";
             this.Text = "Quan ly & trich tron dac trung anh";
+            this.Load += new System.EventHandler(this.frmMain_Load);
+            this.gbImageDetail.ResumeLayout(false);
+            this.gbImageDetail.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -130,6 +158,8 @@
         private System.Windows.Forms.Button btnExtract;
         private System.Windows.Forms.OpenFileDialog ofdBrowseImage;
         private System.Windows.Forms.ImageList ilResult;
+        private System.Windows.Forms.Button btnTimTrucchinh;
+        private System.Windows.Forms.Label lblThongtin;
     }
 }
 
