@@ -92,6 +92,7 @@
             this.btnExtract.TabIndex = 10;
             this.btnExtract.Text = "Trích chọn đặc trưng";
             this.btnExtract.UseVisualStyleBackColor = true;
+            this.btnExtract.Click += new System.EventHandler(this.btnExtract_Click);
             // 
             // ofdBrowseImage
             // 
