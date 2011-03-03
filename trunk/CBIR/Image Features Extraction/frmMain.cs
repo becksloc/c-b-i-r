@@ -58,6 +58,8 @@ namespace Image_Features_Extraction
             {
                 iCurrentImg = 0;
                 pbImageInDB.ImageLocation = FileArray[iCurrentImg].ToString();
+
+                lblPage.Text = "(Ảnh thứ " + (iCurrentImg + 1).ToString() + " / " + FileArray.Count + ")";
             }
             else
             {
@@ -89,6 +91,8 @@ namespace Image_Features_Extraction
                 {
                     btnNextObject.Enabled = false;
                 }
+
+                lblPage.Text = "(Ảnh thứ " + (iCurrentImg + 1).ToString() + " / " + FileArray.Count + ")";
             }
         }
 
@@ -106,6 +110,8 @@ namespace Image_Features_Extraction
                 {
                     btnPrevObject.Enabled = false;
                 }
+
+                lblPage.Text = "(Ảnh thứ " + (iCurrentImg + 1).ToString() + " / " + FileArray.Count + ")";
             }
         }
 

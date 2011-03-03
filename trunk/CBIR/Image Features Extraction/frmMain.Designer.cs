@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.gbImageDetail = new System.Windows.Forms.GroupBox();
+            this.lblThongtin = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnExtract = new System.Windows.Forms.Button();
@@ -40,7 +41,7 @@
             this.btnPrevObject = new System.Windows.Forms.Button();
             this.btnNextObject = new System.Windows.Forms.Button();
             this.btnTimTrucchinh = new System.Windows.Forms.Button();
-            this.lblThongtin = new System.Windows.Forms.Label();
+            this.lblPage = new System.Windows.Forms.Label();
             this.gbImageDetail.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbImageInDB)).BeginInit();
             this.SuspendLayout();
@@ -63,6 +64,15 @@
             this.gbImageDetail.TabIndex = 6;
             this.gbImageDetail.TabStop = false;
             this.gbImageDetail.Text = "Thông tin chi tiết của ảnh (đã chọn ở trên)";
+            // 
+            // lblThongtin
+            // 
+            this.lblThongtin.AutoSize = true;
+            this.lblThongtin.Location = new System.Drawing.Point(6, 28);
+            this.lblThongtin.Name = "lblThongtin";
+            this.lblThongtin.Size = new System.Drawing.Size(52, 13);
+            this.lblThongtin.TabIndex = 0;
+            this.lblThongtin.Text = "Thong tin";
             // 
             // btnAdd
             // 
@@ -125,7 +135,7 @@
             // 
             // btnNextObject
             // 
-            this.btnNextObject.Location = new System.Drawing.Point(75, 367);
+            this.btnNextObject.Location = new System.Drawing.Point(77, 367);
             this.btnNextObject.Name = "btnNextObject";
             this.btnNextObject.Size = new System.Drawing.Size(39, 23);
             this.btnNextObject.TabIndex = 13;
@@ -143,20 +153,21 @@
             this.btnTimTrucchinh.UseVisualStyleBackColor = true;
             this.btnTimTrucchinh.Click += new System.EventHandler(this.button1_Click);
             // 
-            // lblThongtin
+            // lblPage
             // 
-            this.lblThongtin.AutoSize = true;
-            this.lblThongtin.Location = new System.Drawing.Point(6, 28);
-            this.lblThongtin.Name = "lblThongtin";
-            this.lblThongtin.Size = new System.Drawing.Size(52, 13);
-            this.lblThongtin.TabIndex = 0;
-            this.lblThongtin.Text = "Thong tin";
+            this.lblPage.AutoSize = true;
+            this.lblPage.Location = new System.Drawing.Point(133, 377);
+            this.lblPage.Name = "lblPage";
+            this.lblPage.Size = new System.Drawing.Size(50, 13);
+            this.lblPage.TabIndex = 15;
+            this.lblPage.Text = "(Ảnh thứ)";
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(713, 535);
+            this.Controls.Add(this.lblPage);
             this.Controls.Add(this.btnTimTrucchinh);
             this.Controls.Add(this.btnPrevObject);
             this.Controls.Add(this.btnNextObject);
@@ -171,7 +182,6 @@
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.gbImageDetail.ResumeLayout(false);
             this.gbImageDetail.PerformLayout();
-            this.Load += new System.EventHandler(this.frmMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbImageInDB)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -192,6 +202,7 @@
         private System.Windows.Forms.Button btnNextObject;
         private System.Windows.Forms.Button btnTimTrucchinh;
         private System.Windows.Forms.Label lblThongtin;
+        private System.Windows.Forms.Label lblPage;
     }
 }
 
