@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="cMatrixLib.cs" />
     <Compile Include="ImageFuncLib.cs" />
+    <Compile Include="ZinImageFeatureController.cs" />
     <Compile Include="ZinImageFeature.cs" />
     <Compile Include="ZinImageLib.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
