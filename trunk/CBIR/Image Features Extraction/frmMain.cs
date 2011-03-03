@@ -14,10 +14,13 @@ namespace Image_Features_Extraction
 {
     public partial class frmMain : Form
     {
+        string mPath; //duong dan toi thu muc chua XML
+        List<FeatureInfo> mListFeatureDB;
+
         Bitmap bmQuery;
         ArrayList FileArray;
         ArrayList FileTypes;
-        string sImgDbPath;
+        string sImgDbPath;  //duong dan toi thu muc chua ImageDB
         int iCurrentImg;
 
         public frmMain()
@@ -39,7 +42,8 @@ namespace Image_Features_Extraction
             FileTypes.Add("*.TIF");
             FileTypes.Add("*.TIFF");
 
-            sImgDbPath = Directory.GetCurrentDirectory()+ "\\ImagesDB";
+            mPath = Directory.GetCurrentDirectory() + "\\FeatureDB.xml";
+            sImgDbPath = Directory.GetCurrentDirectory() + "\\ImagesDB";
 
             //Load duong dan anh vao list
             string[] szFiles;
@@ -120,6 +124,25 @@ namespace Image_Features_Extraction
         {
             //Hic, chả hiểu
         }
-        
+
+        private void btnExtract_Click(object sender, EventArgs e)
+        {
+            FeatureController objCtrl = new FeatureController(mPath);
+
+            //duyệt mảng file --> tạo Object
+            for (int i = 0; i < FileArray.Count; i++)
+            {
+                FeatureInfo objInfo = new FeatureInfo();
+                //objInfo.BitSequence  =  A. Hoa (lay tu anh Final co grid)
+
+                //đưa vào list & XML
+                mListFeatureDB.Add(objInfo);
+
+                objCtrl.Add(objInfo);
+            }
+
+            objCtrl.WriteXML(); //ghi XML ra mPath
+        }
+
     }
 }
