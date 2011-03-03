@@ -8,7 +8,7 @@ namespace Image_Processing_Library
     public class FeatureInfo
     {
         string m_BitSequence; //xâu nhị phân 0 & 1
-        int m_Eccentricity; //Tâm = tỉ lệ Major Axis / Minor Axis
+        int m_MinorAxis; //Trục phụ (độ cao của ảnh), để kiểm tra
         string m_ImagePath; //Đường dẫn tới file ảnh
 
         public FeatureInfo()
@@ -16,10 +16,10 @@ namespace Image_Processing_Library
 
         }
 
-        public FeatureInfo(string bitSequence, int Eccentricity, string imagePath)
+        public FeatureInfo(string bitSequence, int minorAxis, string imagePath)
         {
             m_BitSequence = bitSequence;
-            m_Eccentricity = Eccentricity;
+            m_MinorAxis = minorAxis;
             m_ImagePath = imagePath;
         }
 
@@ -35,15 +35,15 @@ namespace Image_Processing_Library
             }
         }
 
-        public int Eccentricity
+        public int MinorAxis
         {
             get
             {
-                return m_Eccentricity;
+                return m_MinorAxis;
             }
             set
             {
-                m_Eccentricity = value;
+                m_MinorAxis = value;
             }
         }
 
