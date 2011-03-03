@@ -31,15 +31,18 @@
             this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.gbImageDetail = new System.Windows.Forms.GroupBox();
-            this.lvResult = new System.Windows.Forms.ListView();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnExtract = new System.Windows.Forms.Button();
             this.ofdBrowseImage = new System.Windows.Forms.OpenFileDialog();
             this.ilResult = new System.Windows.Forms.ImageList(this.components);
+            this.pbImageInDB = new System.Windows.Forms.PictureBox();
+            this.btnPrevObject = new System.Windows.Forms.Button();
+            this.btnNextObject = new System.Windows.Forms.Button();
             this.btnTimTrucchinh = new System.Windows.Forms.Button();
             this.lblThongtin = new System.Windows.Forms.Label();
             this.gbImageDetail.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbImageInDB)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -61,14 +64,6 @@
             this.gbImageDetail.TabStop = false;
             this.gbImageDetail.Text = "Thông tin chi tiết của ảnh (đã chọn ở trên)";
             // 
-            // lvResult
-            // 
-            this.lvResult.Location = new System.Drawing.Point(32, 371);
-            this.lvResult.Name = "lvResult";
-            this.lvResult.Size = new System.Drawing.Size(29, 15);
-            this.lvResult.TabIndex = 5;
-            this.lvResult.UseCompatibleStateImageBehavior = false;
-            // 
             // btnAdd
             // 
             this.btnAdd.Location = new System.Drawing.Point(187, 36);
@@ -77,6 +72,7 @@
             this.btnAdd.TabIndex = 8;
             this.btnAdd.Text = "Thêm ảnh";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnDelete
             // 
@@ -107,6 +103,36 @@
             this.ilResult.ImageSize = new System.Drawing.Size(16, 16);
             this.ilResult.TransparentColor = System.Drawing.Color.Transparent;
             // 
+            // pbImageInDB
+            // 
+            this.pbImageInDB.Location = new System.Drawing.Point(32, 70);
+            this.pbImageInDB.Name = "pbImageInDB";
+            this.pbImageInDB.Size = new System.Drawing.Size(598, 291);
+            this.pbImageInDB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbImageInDB.TabIndex = 11;
+            this.pbImageInDB.TabStop = false;
+            // 
+            // btnPrevObject
+            // 
+            this.btnPrevObject.Enabled = false;
+            this.btnPrevObject.Location = new System.Drawing.Point(32, 367);
+            this.btnPrevObject.Name = "btnPrevObject";
+            this.btnPrevObject.Size = new System.Drawing.Size(39, 23);
+            this.btnPrevObject.TabIndex = 14;
+            this.btnPrevObject.Text = "<<";
+            this.btnPrevObject.UseVisualStyleBackColor = true;
+            this.btnPrevObject.Click += new System.EventHandler(this.btnPrevObject_Click);
+            // 
+            // btnNextObject
+            // 
+            this.btnNextObject.Location = new System.Drawing.Point(75, 367);
+            this.btnNextObject.Name = "btnNextObject";
+            this.btnNextObject.Size = new System.Drawing.Size(39, 23);
+            this.btnNextObject.TabIndex = 13;
+            this.btnNextObject.Text = ">>";
+            this.btnNextObject.UseVisualStyleBackColor = true;
+            this.btnNextObject.Click += new System.EventHandler(this.btnNextObject_Click);
+            // 
             // btnTimTrucchinh
             // 
             this.btnTimTrucchinh.Location = new System.Drawing.Point(349, 36);
@@ -132,17 +158,21 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(713, 535);
             this.Controls.Add(this.btnTimTrucchinh);
+            this.Controls.Add(this.btnPrevObject);
+            this.Controls.Add(this.btnNextObject);
+            this.Controls.Add(this.pbImageInDB);
             this.Controls.Add(this.btnExtract);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.gbImageDetail);
-            this.Controls.Add(this.lvResult);
             this.Name = "frmMain";
             this.Text = "Quan ly & trich tron dac trung anh";
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.gbImageDetail.ResumeLayout(false);
             this.gbImageDetail.PerformLayout();
+            this.Load += new System.EventHandler(this.frmMain_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pbImageInDB)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -152,12 +182,14 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox gbImageDetail;
-        private System.Windows.Forms.ListView lvResult;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnExtract;
         private System.Windows.Forms.OpenFileDialog ofdBrowseImage;
         private System.Windows.Forms.ImageList ilResult;
+        private System.Windows.Forms.PictureBox pbImageInDB;
+        private System.Windows.Forms.Button btnPrevObject;
+        private System.Windows.Forms.Button btnNextObject;
         private System.Windows.Forms.Button btnTimTrucchinh;
         private System.Windows.Forms.Label lblThongtin;
     }
