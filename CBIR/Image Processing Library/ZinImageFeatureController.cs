@@ -20,7 +20,7 @@ namespace Image_Processing_Library
             XmlDeclaration dec = m_xmlDocument.CreateXmlDeclaration("1.0", "utf-8", "yes");
             m_xmlDocument.PrependChild(dec);
             // Add the root element
-            XmlElement nodeElem = m_xmlDocument.CreateElement("ListShapeIndex");
+            XmlElement nodeElem = m_xmlDocument.CreateElement("FeatureDB");
             m_xmlDocument.AppendChild(nodeElem);
         }
 
@@ -93,7 +93,7 @@ namespace Image_Processing_Library
                 //Luu tung Node leaf vao ZinImageFeatureInfo
                 FeatureInfo objFeatureInfo = new FeatureInfo();
                 objFeatureInfo.BitSequence = nodeList2.Item(0).InnerText;
-                objFeatureInfo.Eccentricity = Convert.ToInt32(nodeList2.Item(1).InnerText);
+                objFeatureInfo.MinorAxis = Convert.ToInt32(nodeList2.Item(1).InnerText);
                 objFeatureInfo.ImagePath = nodeList2.Item(2).InnerText;
                 //Add vao List
                 listFeatureInfo.Add(objFeatureInfo);
@@ -120,7 +120,7 @@ namespace Image_Processing_Library
             nodeParent.AppendChild(elemFeatureInfo);
             //Them cac element cho node PHAO_HOA
             addTextElement(m_xmlDocument, elemFeatureInfo, "BitSequence", objFeatureInfo.BitSequence);
-            addTextElement(m_xmlDocument, elemFeatureInfo, "Eccentricity", objFeatureInfo.Eccentricity.ToString());
+            addTextElement(m_xmlDocument, elemFeatureInfo, "MinorAxis", objFeatureInfo.MinorAxis.ToString());
             addTextElement(m_xmlDocument, elemFeatureInfo, "ImagePath", objFeatureInfo.ImagePath);
 
             return 0;

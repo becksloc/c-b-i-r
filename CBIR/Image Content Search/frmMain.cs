@@ -101,13 +101,24 @@ namespace Image_Content_Search
 
             //So sánh, nếu BitSeq khác nhau bao nhiêu thì OK
             //for (int i = 0; i < mListFeatureDB.Count; i++)
+            string s1 = "1101", s2 = "111111";
+            BitsDifferent(s1, s2);
+        }
 
+        private int BitsDifferent(string s1, string s2)
+        {
+            //Làm cho 2 xâu bằng nhau (thêm 0 vào cuối)
+            int MaxLen = s1.Length > s2.Length ? s1.Length : s2.Length;
+            for (int i = s1.Length; i < MaxLen; i++) s1 += "0";
+            for (int i = s2.Length; i < MaxLen; i++) s2 += "0";
+
+            return 0;
         }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
             //Set path
-            mPath = Directory.GetCurrentDirectory();
+            mPath = Directory.GetCurrentDirectory() + "\\FeatureDB.xml";
             //mPath = Application.StartupPath;
         }
 
