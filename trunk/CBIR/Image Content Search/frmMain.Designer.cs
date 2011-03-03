@@ -44,6 +44,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbQueryImage)).BeginInit();
             this.gbQuery.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbExtractedObject)).BeginInit();
@@ -183,6 +184,15 @@
             this.label5.TabIndex = 15;
             this.label5.Text = "Phủ lưới lên";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(305, 49);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(88, 13);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "Kết quả tìm kiếm:";
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -193,6 +203,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblBitString);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pbExtractedObject);
             this.Controls.Add(this.btnPrevObject);
@@ -228,6 +239,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
     }
 }
 
