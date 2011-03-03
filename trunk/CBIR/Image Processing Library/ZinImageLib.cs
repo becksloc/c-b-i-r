@@ -477,8 +477,12 @@ namespace Image_Processing_Library
             if (b == 0)
                 angle = 0;
             else
-                angle = 90 - Math.Atan(a / b) * 180 / Math.PI;
+                angle = 90 - Math.Atan((float)a / b) * 180 / Math.PI; //Chu y: phai ep kieu Float
             
+            //Xét trường hợp xoay hướng nào cho phù hợp
+            if (x1 < x2 && y1 < y2)
+                angle = -angle;
+
             return angle;
         }
     }
