@@ -103,7 +103,7 @@ namespace Image_Content_Search
             //So sánh, nếu BitSeq khác nhau bao nhiêu thì OK
             //for (int i = 0; i < mListFeatureDB.Count; i++)
             string s1 = "1101", s2 = "111111";
-            BitsDifferent(s1, s2);
+            int bitsDiff = BitsDifferent(s1, s2);
         }
 
         private int BitsDifferent(string s1, string s2)
