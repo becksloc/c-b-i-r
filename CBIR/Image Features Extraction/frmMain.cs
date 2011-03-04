@@ -17,7 +17,6 @@ namespace Image_Features_Extraction
         string mPath; //duong dan toi thu muc chua XML
         List<FeatureInfo> mListFeatureDB;
 
-        Bitmap bmQuery;
         ArrayList FileArray;
         ArrayList FileTypes;
         string sImgDbPath;  //duong dan toi thu muc chua ImageDB
@@ -28,6 +27,62 @@ namespace Image_Features_Extraction
             InitializeComponent();
         }
 
+        private void DrawImageProcessed()
+        {
+            Graphics gr = CreateGraphics();// Khởi tạo đồ hoạ trên form chính
+            gr.Clear(this.BackColor);
+
+            Bitmap bmpOrigin = (Bitmap)Bitmap.FromFile(pbImageInDB.ImageLocation);
+
+            //Tách đối tượng ra khỏi ảnh --> tạo ảnh mới chỉ chứa khít đối tượng (shape)
+            Bitmap bmpExtracted = ZinImageLib.ExtractShape(bmpOrigin);
+            pbExtractedObject.Image = bmpExtracted;
+
+            //A. Hòa: tìm x1, y1, x2, y2 của trục chính (dài nhất)
+            int x1, y1, x2, y2;
+            ImageFuncLib.getPoint(out x1, out y1, out x2, out y2, bmpExtracted);
+            //Vẽ ảnh (để vẽ đường, ko dùng đc PicBox)
+            gr.DrawImage(bmpExtracted, 253, 414);
+            //Ve duong truc chinh                
+            Pen myPen = new Pen(Color.Red, 2);
+            gr.DrawLine(myPen, x1 + 253, y1 + 414, x2 + 253, y2 + 414);
+
+            //Tìm góc --> xoay. Sau khi xoay sẽ xuất hiện nền thừa --> tìm HCN cơ sở
+            double angle = ZinImageLib.AngleMajorAndX(x1, y1, x2, y2); //!!! Important
+            Bitmap bmpRotated = ZinImageLib.RotateImage(bmpExtracted, (float)angle); //Hàm Rotate2: ko làm thay đổi size --> Ko ổn
+            //pbImageRotated.Image = bmpRotated;
+            ZinImageLib.TransparentToWhite(bmpRotated);
+            bmpRotated = ZinImageLib.ExtractShape(bmpRotated);
+            gr.DrawImage(bmpRotated, 491, 414);
+
+            //Sau khi xoay xong thì mới Resize về kích thước cố định
+            Bitmap bmpResized = ZinImageLib.Resize(bmpRotated, ZinImageLib.WidthStandard, ZinImageLib.WidthStandard * bmpRotated.Height / bmpRotated.Width, true);
+            gr.DrawImage(bmpResized, 491, 196);
+
+            //Phủ lưới lên
+            for (int i = 0; i < bmpResized.Width; i++)
+                if (i % ZinImageLib.CellWidth == 0)
+                {
+                    gr.DrawLine(Pens.Red, i + 491, 0 + 196, i + 491, bmpResized.Height + 196);
+                }
+
+            for (int j = 0; j < bmpResized.Height; j++)
+                if (j % ZinImageLib.CellHeight == 0)
+                    gr.DrawLine(Pens.Red, 0 + 491, j + 196, bmpResized.Width + 491, j + 196);
+
+
+            //Tô hình dạng thành đen đặc trước khi đếm
+            Bitmap bmpBlackFill = (Bitmap)bmpResized.Clone();
+            ZinImageLib.FillSolidBlack(bmpBlackFill);
+
+            //A. Hòa: trích chuỗi, trục
+            //Gán vào mFeatureQuery
+            //mFeatureQuery.BitSequence = 
+            //mFeatureQuery.MinorAxis = 
+
+            //gr.Dispose();
+
+        }
 
         private void frmMain_Load(object sender, EventArgs e)
 
@@ -64,6 +119,9 @@ namespace Image_Features_Extraction
                 pbImageInDB.ImageLocation = FileArray[iCurrentImg].ToString();
 
                 lblPage.Text = "(Ảnh thứ " + (iCurrentImg + 1).ToString() + " / " + FileArray.Count + ")";
+
+                //ve anh
+                DrawImageProcessed();
             }
             else
             {
@@ -97,6 +155,8 @@ namespace Image_Features_Extraction
                 }
 
                 lblPage.Text = "(Ảnh thứ " + (iCurrentImg + 1).ToString() + " / " + FileArray.Count + ")";
+
+                DrawImageProcessed();
             }
         }
 
@@ -116,6 +176,8 @@ namespace Image_Features_Extraction
                 }
 
                 lblPage.Text = "(Ảnh thứ " + (iCurrentImg + 1).ToString() + " / " + FileArray.Count + ")";
+
+                DrawImageProcessed();
             }
         }
 
