@@ -16,6 +16,7 @@ namespace Image_Processing_Library
         public static int CellWidth = 24; //độ rộng của Cell grid
         public static int CellHeight = 24; //độ cao của Cell grid
         public static int PercentCovered = 15; //ô lưới bị phủ >= 15%
+        public static int Threshold = 3; //số bít cho phép khác nhau
 
         #region Chuyển sang ảnh nhị phân ( đen trắng )
         public static bool ToBinaryImage(Bitmap b, int n)
@@ -638,6 +639,8 @@ namespace Image_Processing_Library
 
             int GridCols = bmp.Width / ZinImageLib.CellWidth; //Truc chinh
             int GridRows = bmp.Height / ZinImageLib.CellHeight; //Truc phu
+            if (bmp.Height % ZinImageLib.CellHeight != 0)
+                GridRows += 1;
 
             for (int j = 0; j < GridRows; j++)
             {
@@ -647,6 +650,13 @@ namespace Image_Processing_Library
                     int cellY1 = j * ZinImageLib.CellHeight;
                     int cellX2 = i * ZinImageLib.CellWidth + ZinImageLib.CellWidth;
                     int cellY2 = j * ZinImageLib.CellHeight + ZinImageLib.CellHeight;
+
+                    //Dong cuoi cung
+                    if (j == GridRows - 1)
+                    {
+                        cellY2 = bmp.Height;
+                    }
+
 
                     if (CountBlackDot(bmp, cellX1, cellY1, cellX2, cellY2) > ZinImageLib.PercentCovered)
                         BitString += "1";
@@ -658,6 +668,15 @@ namespace Image_Processing_Library
             }
 
             return BitString;
+        }
+
+        //Tính độ cao trục phụ (so dong cua Grid)
+        public static int GetMinorAxisLen(Bitmap bmp)
+        {
+            int GridRows = bmp.Height / ZinImageLib.CellHeight; //Truc phu
+            if (bmp.Height % ZinImageLib.CellHeight != 0)
+                GridRows += 1;
+            return GridRows;
         }
 
     }
