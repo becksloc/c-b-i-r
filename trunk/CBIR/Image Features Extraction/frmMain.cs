@@ -15,7 +15,7 @@ namespace Image_Features_Extraction
     public partial class frmMain : Form
     {
         string mPath; //duong dan toi thu muc chua XML
-        List<FeatureInfo> mListFeatureDB;
+        //List<FeatureInfo> mListFeatureDB;
 
         ArrayList FileArray;
         ArrayList FileTypes;
@@ -76,6 +76,8 @@ namespace Image_Features_Extraction
             ZinImageLib.FillSolidBlack(bmpBlackFill);
 
             //A. Hòa: trích chuỗi, trục
+            string BitSeq = ZinImageLib.GetBitString(bmpBlackFill);
+            lblBitString.Text = BitSeq;
             //Gán vào mFeatureQuery
             //mFeatureQuery.BitSequence = 
             //mFeatureQuery.MinorAxis = 
@@ -190,20 +192,50 @@ namespace Image_Features_Extraction
         private void btnExtract_Click(object sender, EventArgs e)
         {
             FeatureController objCtrl = new FeatureController(mPath);
+            Bitmap bmpTemp;
 
             //duyệt mảng file --> tạo Object
             for (int i = 0; i < FileArray.Count; i++)
             {
+                //Lay lan luot tung anh
+                bmpTemp = (Bitmap)Bitmap.FromFile(FileArray[i].ToString());
+
+                //Tách đối tượng ra khỏi ảnh --> tạo ảnh mới chỉ chứa khít đối tượng (shape)
+                Bitmap bmpExtracted = ZinImageLib.ExtractShape(bmpTemp);
+
+                //A. Hòa: tìm x1, y1, x2, y2 của trục chính (dài nhất)
+                int x1, y1, x2, y2;
+                ImageFuncLib.getPoint(out x1, out y1, out x2, out y2, bmpExtracted);
+ 
+                //Tìm góc --> xoay. Sau khi xoay sẽ xuất hiện nền thừa --> tìm HCN cơ sở
+                double angle = ZinImageLib.AngleMajorAndX(x1, y1, x2, y2); //!!! Important
+                Bitmap bmpRotated = ZinImageLib.RotateImage(bmpExtracted, (float)angle); //Hàm Rotate2: ko làm thay đổi size --> Ko ổn
+                ZinImageLib.TransparentToWhite(bmpRotated);
+                bmpRotated = ZinImageLib.ExtractShape(bmpRotated);
+
+                //Sau khi xoay xong thì mới Resize về kích thước cố định
+                Bitmap bmpResized = ZinImageLib.Resize(bmpRotated, ZinImageLib.WidthStandard, ZinImageLib.WidthStandard * bmpRotated.Height / bmpRotated.Width, true);
+
+                //Tô hình dạng thành đen đặc trước khi đếm
+                Bitmap bmpBlackFill = (Bitmap)bmpResized.Clone();
+                ZinImageLib.FillSolidBlack(bmpBlackFill);
+
+
+                //Luu XML ============================
                 FeatureInfo objInfo = new FeatureInfo();
-                //objInfo.BitSequence  =  A. Hoa (lay tu anh Final co grid)
+                objInfo.BitSequence = ZinImageLib.GetBitString(bmpBlackFill);
+                objInfo.MinorAxis = ZinImageLib.GetMinorAxisLen(bmpBlackFill);
+                objInfo.ImagePath = FileArray[i].ToString();
 
                 //đưa vào list & XML
-                mListFeatureDB.Add(objInfo);
+                //mListFeatureDB.Add(objInfo);
 
                 objCtrl.Add(objInfo);
             }
 
             objCtrl.WriteXML(); //ghi XML ra mPath
+
+            MessageBox.Show("Đã trích chọn xong đặc trưng của ảnh & ghi vào file XML");
         }
 
     }

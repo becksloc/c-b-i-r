@@ -15,7 +15,7 @@ namespace Image_Content_Search
     {
         string mPath;
         List<FeatureInfo> mListFeatureDB;
-        FeatureInfo mFeatureQuery;
+        FeatureInfo mFeatureQuery = new FeatureInfo();
         
         public frmMain()
         {
@@ -62,11 +62,7 @@ namespace Image_Content_Search
                 gr.DrawImage(bmpRotated, 458, 380);
 
                 //Sau khi xoay xong thì mới Resize về kích thước cố định
-                int iHeightResize = (bmpRotated.Height / ZinImageLib.CellHeight) * ZinImageLib.CellHeight;
-                if (bmpRotated.Height % ZinImageLib.CellHeight != 0)
-                    iHeightResize += ZinImageLib.CellHeight;
-
-                Bitmap bmpResized = ZinImageLib.Resize(bmpRotated, ZinImageLib.WidthStandard, iHeightResize, true);
+                Bitmap bmpResized = ZinImageLib.Resize(bmpRotated, ZinImageLib.WidthStandard, ZinImageLib.WidthStandard * bmpRotated.Height / bmpRotated.Width, true);
                 //Bitmap bmpResized = ZinImageLib.ResizeImage(bmpRotated, ZinImageLib.WidthStandard, ZinImageLib.WidthStandard * bmpRotated.Height / bmpRotated.Width); //Bị thay đổi -> nguy hiểm
                 gr.DrawImage(bmpResized, 674, 380);
                 
@@ -89,10 +85,11 @@ namespace Image_Content_Search
 
                 //A. Hòa: trích chuỗi, trục
                 //lblBitString.Text = ImageFuncLib.getImgString(ZinImageLib.CellWidth, ZinImageLib.CellHeight, ZinImageLib.PercentCovered, bmpBlackFill);
-                lblBitString.Text = ZinImageLib.GetBitString(bmpBlackFill);
+                string BitSeq = ZinImageLib.GetBitString(bmpBlackFill);
+                lblBitString.Text = BitSeq;
                 //Gán vào mFeatureQuery
-                //mFeatureQuery.BitSequence = 
-                //mFeatureQuery.MinorAxis = 
+                mFeatureQuery.BitSequence = BitSeq;
+                mFeatureQuery.MinorAxis = ZinImageLib.GetMinorAxisLen(bmpBlackFill);
 
                 //gr.Dispose();
             }
@@ -112,11 +109,22 @@ namespace Image_Content_Search
             FeatureController objCtrl = new FeatureController(mPath);
             mListFeatureDB = objCtrl.GetAll();
 
-            //So sánh, nếu BitSeq khác nhau bao nhiêu thì OK
-            //for (int i = 0; i < mListFeatureDB.Count; i++)
-            string s1 = "1101", s2 = "111111";
-            int bitsDiff = BitsDifferent(s1, s2);
+            //So sánh, neu do do OK --> luu vao mang
+            List<FeatureInfo> listSM = new List<FeatureInfo>();
+            for (int i = 0; i < mListFeatureDB.Count; i++)
+            {
+                if (SimilitaryMeasure(mFeatureQuery, mListFeatureDB[i]) >= ZinImageLib.Threshold)
+                    listSM.Add(mListFeatureDB[i]);
+            }
+
+            //Sap xep listSM de uu tien SM nho len tren
+            //listSM.Sort(
+
+
+            //Hien thi Ket qua
+
         }
+
 
         private int SimilitaryMeasure(FeatureInfo f1, FeatureInfo f2)
         {
