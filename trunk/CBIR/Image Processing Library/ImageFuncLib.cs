@@ -66,10 +66,13 @@ namespace Image_Processing_Library
             s="";
             k = 0;
             byte[] arrImage=new byte[140000];
-            
+
+            //int GridCols = bmpBlackFill.Width / ZinImageLib.CellWidth; //Truc chinh
+            //int GridRows = bmpBlackFill.Height / ZinImageLib.CellHeight; //Truc phu
+
             //Luu cac diem anh vao mang
-            for(i=0; i<cH*16; i++)
-                for(j=0; j<cW*16; j++)
+            for(i=0; i<bm.Width; i++)
+                for(j=0; j<bm.Height; j++)
                 {
                     if (bm.GetPixel(i, j).R == 0 && bm.GetPixel(i, j).B == 0 && bm.GetPixel(i, j).G == 0)
                         arrImage[k] = 1;

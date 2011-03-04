@@ -543,13 +543,13 @@ namespace Image_Processing_Library
         private static Rectangle FindRectangleBound(Bitmap b)
         {
             int MinX, MaxX, MinY, MaxY;
-                        
+
             //Chiếu ảnh lên trục X --> tim duoc hinh chieu tren truc X
             FindOnAxisX(out MinX, out MaxX, b);
 
             //Chiếu ảnh lên trục Y --> tim duoc hinh chieu tren truc Y
-            FindOnAxisY(out MinY, out MaxY, b); 
-           
+            FindOnAxisY(out MinY, out MaxY, b);
+
             Rectangle recResult = new Rectangle(MinX, MinY, MaxX - MinX, MaxY - MinY);
 
             return recResult;
@@ -583,7 +583,7 @@ namespace Image_Processing_Library
                 angle = 0;
             else
                 angle = 90 - Math.Atan((float)a / b) * 180 / Math.PI; //Chu y: phai ep kieu Float
-            
+
             //Xét trường hợp xoay hướng nào cho phù hợp
             if (x1 < x2 && y1 < y2)
                 angle = -angle;
@@ -617,5 +617,49 @@ namespace Image_Processing_Library
                     if (bmp.GetPixel(i, j).A == 0)
                         bmp.SetPixel(i, j, Color.White);
         }
+
+
+        //Đếm số điểm đen trong 1 cell
+        private static int CountBlackDot(Bitmap bmpCell, int cellX1, int cellY1, int cellX2, int cellY2)
+        {
+            int count = 0;
+            for (int i = cellX1; i < cellX2; i++)
+                for (int j = cellY1; j < cellY2; j++)
+                    if (bmpCell.GetPixel(i, j).R == 0)
+                        count++;
+            return count;
+        }
+
+        //Tìm xâu bít
+        public static string GetBitString(Bitmap bmp)
+        {
+            string BitString = "";
+            //duyet tung Cell
+
+            int GridCols = bmp.Width / ZinImageLib.CellWidth; //Truc chinh
+            int GridRows = bmp.Height / ZinImageLib.CellHeight; //Truc phu
+
+            for (int j = 0; j < GridRows; j++)
+            {
+                for (int i = 0; i < GridCols; i++)
+                {
+                    int cellX1 = i * ZinImageLib.CellWidth;
+                    int cellY1 = j * ZinImageLib.CellHeight;
+                    int cellX2 = i * ZinImageLib.CellWidth + ZinImageLib.CellWidth;
+                    int cellY2 = j * ZinImageLib.CellHeight + ZinImageLib.CellHeight;
+
+                    if (CountBlackDot(bmp, cellX1, cellY1, cellX2, cellY2) > ZinImageLib.PercentCovered)
+                        BitString += "1";
+                    else
+                        BitString += "0";
+                }
+
+                BitString += "   ";
+            }
+
+            return BitString;
+        }
+
     }
+
 }

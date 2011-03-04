@@ -62,7 +62,11 @@ namespace Image_Content_Search
                 gr.DrawImage(bmpRotated, 458, 380);
 
                 //Sau khi xoay xong thì mới Resize về kích thước cố định
-                Bitmap bmpResized = ZinImageLib.Resize(bmpRotated, ZinImageLib.WidthStandard, ZinImageLib.WidthStandard * bmpRotated.Height / bmpRotated.Width, true);
+                int iHeightResize = (bmpRotated.Height / ZinImageLib.CellHeight) * ZinImageLib.CellHeight;
+                if (bmpRotated.Height % ZinImageLib.CellHeight != 0)
+                    iHeightResize += ZinImageLib.CellHeight;
+
+                Bitmap bmpResized = ZinImageLib.Resize(bmpRotated, ZinImageLib.WidthStandard, iHeightResize, true);
                 //Bitmap bmpResized = ZinImageLib.ResizeImage(bmpRotated, ZinImageLib.WidthStandard, ZinImageLib.WidthStandard * bmpRotated.Height / bmpRotated.Width); //Bị thay đổi -> nguy hiểm
                 gr.DrawImage(bmpResized, 674, 380);
                 
@@ -85,6 +89,7 @@ namespace Image_Content_Search
 
                 //A. Hòa: trích chuỗi, trục
                 //lblBitString.Text = ImageFuncLib.getImgString(ZinImageLib.CellWidth, ZinImageLib.CellHeight, ZinImageLib.PercentCovered, bmpBlackFill);
+                lblBitString.Text = ZinImageLib.GetBitString(bmpBlackFill);
                 //Gán vào mFeatureQuery
                 //mFeatureQuery.BitSequence = 
                 //mFeatureQuery.MinorAxis = 
@@ -111,6 +116,13 @@ namespace Image_Content_Search
             //for (int i = 0; i < mListFeatureDB.Count; i++)
             string s1 = "1101", s2 = "111111";
             int bitsDiff = BitsDifferent(s1, s2);
+        }
+
+        private int SimilitaryMeasure(FeatureInfo f1, FeatureInfo f2)
+        {
+            //Kiểm tra trục phụ
+
+            return 0;
         }
 
         private int BitsDifferent(string s1, string s2)
