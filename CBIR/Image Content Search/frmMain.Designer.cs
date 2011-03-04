@@ -45,6 +45,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.lblResultCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbQueryImage)).BeginInit();
             this.gbQuery.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbExtractedObject)).BeginInit();
@@ -194,11 +195,21 @@
             this.label6.TabIndex = 13;
             this.label6.Text = "Kết quả tìm kiếm:";
             // 
+            // lblResultCount
+            // 
+            this.lblResultCount.AutoSize = true;
+            this.lblResultCount.ForeColor = System.Drawing.Color.Crimson;
+            this.lblResultCount.Location = new System.Drawing.Point(397, 48);
+            this.lblResultCount.Name = "lblResultCount";
+            this.lblResultCount.Size = new System.Drawing.Size(0, 13);
+            this.lblResultCount.TabIndex = 16;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(900, 554);
+            this.Controls.Add(this.lblResultCount);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -241,6 +252,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblResultCount;
     }
 }
 

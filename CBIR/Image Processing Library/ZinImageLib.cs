@@ -16,7 +16,7 @@ namespace Image_Processing_Library
         public static int CellWidth = 24; //độ rộng của Cell grid
         public static int CellHeight = 24; //độ cao của Cell grid
         public static int PercentCovered = 15; //ô lưới bị phủ >= 15%
-        public static int Threshold = 3; //số bít cho phép khác nhau
+        public static int Threshold = 5; //số bít cho phép khác nhau
 
         #region Chuyển sang ảnh nhị phân ( đen trắng )
         public static bool ToBinaryImage(Bitmap b, int n)

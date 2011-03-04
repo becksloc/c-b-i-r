@@ -123,6 +123,8 @@ namespace Image_Content_Search
 
 
             //Hien thi Ket qua
+            lblResultCount.Text = listSM.Count + " (ảnh)";
+
             Graphics gr = CreateGraphics();// Khởi tạo đồ hoạ trên form chính
             //gr.Clear(this.BackColor);
 
@@ -135,7 +137,7 @@ namespace Image_Content_Search
             {
                 //Lay tung anh ra
                 bmpTemp = (Bitmap)Bitmap.FromFile(listSM[i].ImagePath);
-                gr.DrawImage(bmpTemp, x + 200 * col, y + 160 * row);
+                gr.DrawImage(bmpTemp, x + 300 * col, y + 160 * row);
 
                 col++;
 
