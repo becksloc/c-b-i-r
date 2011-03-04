@@ -602,7 +602,7 @@ namespace Image_Processing_Library
                 while (k < bmp.Height && bmp.GetPixel(i, k).R == 255) k++; //gặp điểm đen (biên ảnh) thì dừng
                 //Duyệt từ dưới
                 int h = bmp.Height - 1;
-                while (h >= 0 && bmp.GetPixel(i, h).R == 255) h++; //gặp điểm đen (biên ảnh) thì dừng
+                while (h >= 0 && bmp.GetPixel(i, h).R == 255) h--; //gặp điểm đen (biên ảnh) thì dừng
                 //Tô đen vùng trong hình
                 for (int j = k; j < h; j++)
                     bmp.SetPixel(i, j, Color.Black);

@@ -27,7 +27,8 @@ namespace Image_Content_Search
             if (ofdBrowseImage.ShowDialog(this) == DialogResult.OK)
             {
                 Graphics gr = CreateGraphics();// Khởi tạo đồ hoạ trên form chính
-                
+                gr.Clear(this.BackColor);
+
                 //Hien thi anh len pbQueryImage
                 Bitmap bmpQuery = (Bitmap)Bitmap.FromFile(ofdBrowseImage.FileName);
 
@@ -61,8 +62,8 @@ namespace Image_Content_Search
                 gr.DrawImage(bmpRotated, 458, 380);
 
                 //Sau khi xoay xong thì mới Resize về kích thước cố định
-                //Bitmap bmpResized = ZinImageLib.Resize(bmpRotated, ZinImageLib.WidthStandard, ZinImageLib.WidthStandard * bmpRotated.Height / bmpRotated.Width, true);
-                Bitmap bmpResized = ZinImageLib.ResizeImage(bmpRotated, ZinImageLib.WidthStandard, ZinImageLib.WidthStandard * bmpRotated.Height / bmpRotated.Width);
+                Bitmap bmpResized = ZinImageLib.Resize(bmpRotated, ZinImageLib.WidthStandard, ZinImageLib.WidthStandard * bmpRotated.Height / bmpRotated.Width, true);
+                //Bitmap bmpResized = ZinImageLib.ResizeImage(bmpRotated, ZinImageLib.WidthStandard, ZinImageLib.WidthStandard * bmpRotated.Height / bmpRotated.Width); //Bị thay đổi -> nguy hiểm
                 gr.DrawImage(bmpResized, 674, 380);
                 
                 //Phủ lưới lên
@@ -76,8 +77,14 @@ namespace Image_Content_Search
                     if (j % ZinImageLib.CellHeight == 0)
                         gr.DrawLine(Pens.Red, 0 + 674, j + 380, bmpResized.Width + 674, j + 380);
 
+                //Tô hình dạng thành đen đặc trước khi đếm
+                Bitmap bmpBlackFill = (Bitmap)bmpResized.Clone();
+                ZinImageLib.FillSolidBlack(bmpBlackFill);
+
+                gr.DrawImage(bmpBlackFill, this.Width/2, this.Height/2 - 100);
 
                 //A. Hòa: trích chuỗi, trục
+                //lblBitString.Text = ImageFuncLib.getImgString(ZinImageLib.CellWidth, ZinImageLib.CellHeight, ZinImageLib.PercentCovered, bmpBlackFill);
                 //Gán vào mFeatureQuery
                 //mFeatureQuery.BitSequence = 
                 //mFeatureQuery.MinorAxis = 
