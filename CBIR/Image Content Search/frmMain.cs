@@ -81,7 +81,7 @@ namespace Image_Content_Search
                 Bitmap bmpBlackFill = (Bitmap)bmpResized.Clone();
                 ZinImageLib.FillSolidBlack(bmpBlackFill);
 
-                gr.DrawImage(bmpBlackFill, this.Width/2, this.Height/2 - 100);
+                ///gr.DrawImage(bmpBlackFill, this.Width/2, this.Height/2 - 100);
 
                 //A. Hòa: trích chuỗi, trục
                 //lblBitString.Text = ImageFuncLib.getImgString(ZinImageLib.CellWidth, ZinImageLib.CellHeight, ZinImageLib.PercentCovered, bmpBlackFill);
@@ -92,6 +92,7 @@ namespace Image_Content_Search
                 mFeatureQuery.MinorAxis = ZinImageLib.GetMinorAxisLen(bmpBlackFill);
 
                 //gr.Dispose();
+                btnSearch.Enabled = true;
             }
         }
 
@@ -113,7 +114,7 @@ namespace Image_Content_Search
             List<FeatureInfo> listSM = new List<FeatureInfo>();
             for (int i = 0; i < mListFeatureDB.Count; i++)
             {
-                if (SimilitaryMeasure(mFeatureQuery, mListFeatureDB[i]) >= ZinImageLib.Threshold)
+                if (SimilitaryMeasure(mFeatureQuery, mListFeatureDB[i]) <= ZinImageLib.Threshold)
                     listSM.Add(mListFeatureDB[i]);
             }
 
@@ -122,15 +123,44 @@ namespace Image_Content_Search
 
 
             //Hien thi Ket qua
+            Graphics gr = CreateGraphics();// Khởi tạo đồ hoạ trên form chính
+            //gr.Clear(this.BackColor);
+
+            Bitmap bmpTemp;
+            int x = 308;
+            int y = 83;
+            int row = 0;
+            int col = 0;
+            for (int i = 0; i < listSM.Count; i++)
+            {
+                //Lay tung anh ra
+                bmpTemp = (Bitmap)Bitmap.FromFile(listSM[i].ImagePath);
+                gr.DrawImage(bmpTemp, x + 200 * col, y + 160 * row);
+
+                col++;
+
+                if ((i + 1) % 2 == 0)
+                {
+                    //xuong dong
+                    row++;
+                    col = 0;
+                }
+            }
 
         }
 
 
         private int SimilitaryMeasure(FeatureInfo f1, FeatureInfo f2)
         {
-            //Kiểm tra trục phụ
+            int res;
+            //Kiểm tra trục phụ. Neu khac nhau qua lon --> loai bo
+            if (Math.Abs(f1.MinorAxis - f2.MinorAxis) > 2)
+                res = ZinImageLib.Threshold + 1; //Cho qua nguong
+            else
+                //Kiem tra xau bit
+                res = BitsDifferent(f1.BitSequence, f2.BitSequence);
 
-            return 0;
+            return res;
         }
 
         private int BitsDifferent(string s1, string s2)
