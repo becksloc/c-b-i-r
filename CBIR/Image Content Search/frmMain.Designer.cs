@@ -142,9 +142,8 @@
             this.lblBitString.ForeColor = System.Drawing.Color.Crimson;
             this.lblBitString.Location = new System.Drawing.Point(393, 8);
             this.lblBitString.Name = "lblBitString";
-            this.lblBitString.Size = new System.Drawing.Size(49, 13);
+            this.lblBitString.Size = new System.Drawing.Size(0, 13);
             this.lblBitString.TabIndex = 14;
-            this.lblBitString.Text = "0101010";
             // 
             // label2
             // 
@@ -208,7 +207,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(900, 554);
+            this.ClientSize = new System.Drawing.Size(900, 679);
             this.Controls.Add(this.lblResultCount);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
