@@ -30,21 +30,14 @@ namespace Image_Content_Search
                 gr.Clear(this.BackColor);
 
                 //Hien thi anh len pbQueryImage
-                Bitmap bmpQuery = (Bitmap)Bitmap.FromFile(ofdBrowseImage.FileName);
-
-                //Test 1 so Function trong Lib
-                //ZinImageLib.ToBinaryImage(bmQuery, 100);
-                //ZinImageLib.ToGrayScale(bmQuery);
-                //bmQuery = ZinImageLib.ToGrayScale2(bmQuery);
-                //bmQuery = ZinImageLib.RotateImage(bmQuery, 45f);
-             
+                Bitmap bmpQuery = (Bitmap)Bitmap.FromFile(ofdBrowseImage.FileName);             
                 pbQueryImage.Image = bmpQuery;
 
-                //Tách đối tượng ra khỏi ảnh --> tạo ảnh mới chỉ chứa khít đối tượng (shape)
-                Bitmap bmpExtracted = ZinImageLib.ExtractShape(bmpQuery);
-                pbExtractedObject.Image = bmpExtracted;
+                //Buoc 1: Tách đối tượng ra khỏi ảnh --> tạo ảnh mới chỉ chứa khít đối tượng (shape)
+                Bitmap bmpExtracted = ZinImageGrid.ExtractShape(bmpQuery);
+                gr.DrawImage(bmpExtracted, 28, 380);
                 
-                //A. Hòa: tìm x1, y1, x2, y2 của trục chính (dài nhất)
+                //Buoc 2: tìm x1, y1, x2, y2 của trục chính (dài nhất)
                 int x1, y1, x2, y2;
                 ImageFuncLib.getPoint(out x1, out y1, out x2, out y2, bmpExtracted);
                 //Vẽ ảnh (để vẽ đường, ko dùng đc PicBox)
@@ -53,76 +46,69 @@ namespace Image_Content_Search
                 Pen myPen = new Pen(Color.Red, 2);
                 gr.DrawLine(myPen, x1 + 242, y1 + 380, x2 + 242, y2 + 380);
 
-                //Tìm góc --> xoay. Sau khi xoay sẽ xuất hiện nền thừa --> tìm HCN cơ sở
-                double angle = ZinImageLib.AngleMajorAndX(x1, y1, x2, y2); //!!! Important
-                Bitmap bmpRotated = ZinImageLib.RotateImage(bmpExtracted, (float)angle); //Hàm Rotate2: ko làm thay đổi size --> Ko ổn
-                //pbImageRotated.Image = bmpRotated;
-                ZinImageLib.TransparentToWhite(bmpRotated);
-                bmpRotated = ZinImageLib.ExtractShape(bmpRotated);
+                //Buoc 3: Tìm góc --> xoay. Sau khi xoay sẽ xuất hiện nền thừa --> tìm HCN cơ sở để cắt bớt
+                double angle = ZinImageGrid.AngleMajorAndX(x1, y1, x2, y2); //!!! Important
+                Bitmap bmpRotated = ZinImageLib.RotateImage(bmpExtracted, (float)angle); //Hàm Rotate2: ko làm thay đổi size --> bị cắt xén ảnh --> Ko ổn
+                ///////////////(chu y: ham Xoay co van de --> Fill black bi loi)////////////////
+                ZinImageGrid.TransparentToWhite(bmpRotated);
+                bmpRotated = ZinImageGrid.ExtractShape(bmpRotated); //cắt bớt nền thừa
                 gr.DrawImage(bmpRotated, 458, 380);
 
-                //Sau khi xoay xong thì mới Resize về kích thước cố định
-                Bitmap bmpResized = ZinImageLib.Resize(bmpRotated, ZinImageLib.WidthStandard, ZinImageLib.WidthStandard * bmpRotated.Height / bmpRotated.Width, true);
-                //Bitmap bmpResized = ZinImageLib.ResizeImage(bmpRotated, ZinImageLib.WidthStandard, ZinImageLib.WidthStandard * bmpRotated.Height / bmpRotated.Width); //Bị thay đổi -> nguy hiểm
-                gr.DrawImage(bmpResized, 674, 380);
-                
-                //Phủ lưới lên
-                for (int i = 0; i < bmpResized.Width; i++)
-                    if (i % ZinImageLib.CellWidth == 0)
-                    {
-                        gr.DrawLine(Pens.Red, i + 674, 0 + 380, i + 674, bmpResized.Height + 380);
-                    }
+                //Buoc 4: Sau khi xoay xong thì mới Resize về kích thước cố định
+                Bitmap bmpResized = ZinImageLib.Resize(bmpRotated, ZinImageGrid.WidthStandard, ZinImageGrid.WidthStandard * bmpRotated.Height / bmpRotated.Width, true);
+                //Bitmap bmpResized = ZinImageLib.ResizeImage(bmpRotated, ZinImageGrid.WidthStandard, ZinImageGrid.WidthStandard * bmpRotated.Height / bmpRotated.Width); //Bị thay đổi -> nguy hiểm
 
-                for (int j = 0; j < bmpResized.Height; j++)
-                    if (j % ZinImageLib.CellHeight == 0)
-                        gr.DrawLine(Pens.Red, 0 + 674, j + 380, bmpResized.Width + 674, j + 380);
+                //Buoc 5: Lưu 4 trường hợp: lật trái, phải, ngược của ảnh
+                Bitmap[] bmpAllCases = new Bitmap[4];
+                for (int i = 0; i < 4; i++)
+                    bmpAllCases[i] = (Bitmap)bmpResized.Clone(); //Copy thanh 4 anh
 
+                //---- Lật 3 ảnh, giữ lại ảnh gốc -----
+                ZinImageLib.Flip(bmpAllCases[1], false, true);
+                ZinImageLib.Flip(bmpAllCases[2], true, false);
+                ZinImageLib.Flip(bmpAllCases[3], true, true);
 
+                //Buoc 6: Phu luoi len
+                for (int i = 0; i < 4; i++)
+                {
+                    gr.DrawImage(bmpAllCases[i], 28 + i * 220, 517);
+
+                    //Minh hoa: Phủ lưới lên
+                    for (int c = 0; c <= bmpAllCases[i].Width; c++)
+                        if (c % ZinImageGrid.CellWidth == 0)
+                            gr.DrawLine(Pens.Red, 28 + i * 220 + c, 517, 28 + i * 220 + c, bmpAllCases[i].Height + 517);
+
+                    for (int r = 0; r <= bmpAllCases[i].Height; r++)
+                        if (r % ZinImageGrid.CellHeight == 0)
+                            gr.DrawLine(Pens.Red, 28 + i * 220, r + 517, 28 + i * 220 + bmpAllCases[i].Width, r + 517);
+                }
+
+                //Buoc 7: dem so o >= 15% --> bit 1
                 mFeatureQuery.Clear();
                 lblBitString.Text = "";
-
-                Bitmap[] bmpAllCases = new Bitmap[4];
-                bmpAllCases[0] = (Bitmap)bmpResized.Clone();
-                bmpAllCases[1] = ZinImageLib.RotateImage(bmpResized, 180); //Quay cac goc nay ko lam thay doi width
-                //-------------VE THU XEM NAO-----------------------
-                gr.DrawImage(bmpAllCases[1], 674, 380 + 150);
-
-                //Phủ lưới lên
-                for (int i = 0; i < bmpResized.Width; i++)
-                    if (i % ZinImageLib.CellWidth == 0)
-                    {
-                        gr.DrawLine(Pens.Red, i + 674, 0 + 380 + 150, i + 674, bmpResized.Height + 380 + 150);
-                    }
-
-                for (int j = 0; j < bmpResized.Height; j++)
-                    if (j % ZinImageLib.CellHeight == 0)
-                        gr.DrawLine(Pens.Red, 0 + 674, j + 380 + 150, bmpResized.Width + 674, j + 380 + 150);
-
-                //------------------------------------------------
-
-                //bmpAllCases[2] = Flip bmpBlackFill
-                //bmpAllCases[3] = Flip bmpAllCase[1]
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < 4; i++)
                 {
                     //Tô hình dạng thành đen đặc trước khi đếm
                     Bitmap bmpBlackFill = (Bitmap)bmpAllCases[i].Clone();
-                    ZinImageLib.FillSolidBlack(bmpBlackFill);
+                    ZinImageGrid.FillSolidBlack(bmpBlackFill);
+                    //show ra xem the nao
+                    //gr.DrawImage(bmpBlackFill, 300 + i * 200, 150);
 
-                    gr.DrawImage(bmpBlackFill, 458 - i * 250, 380 + 150);
-
-                    string BitSeq = ZinImageLib.GetBitString(bmpBlackFill);
-                    lblBitString.Text += BitSeq + Environment.NewLine;
+                    string BitSeq = ZinImageGrid.GetBitString(bmpBlackFill);
+                    lblBitString.Text += ZinImageGrid.DisplayBitString(BitSeq) + Environment.NewLine;
 
                     //Gán vào mFeatureQuery
                     FeatureInfo temp = new FeatureInfo();
                     temp.BitSequence = BitSeq;
-                    temp.MinorAxis = ZinImageLib.GetMinorAxisLen(bmpBlackFill);
-                    //Dua vao truy van (se co 4)
+                    temp.MinorAxis = ZinImageGrid.GetMinorAxisLen(bmpBlackFill);
+                    
+                    //Dua ca 4 truong hop anh vao truy van
                     mFeatureQuery.Add(temp);                   
                 }
 
                 //gr.Dispose();
                 btnSearch.Enabled = true;
+                lblResultCount.Text = "";
             }
         }
 
@@ -146,17 +132,10 @@ namespace Image_Content_Search
             {
                 for (int i = 0; i < mListFeatureDB.Count; i++)
                 {
-                    //Neu do sai khac thoa man muc cho phep
-                    if (SimilitaryMeasure(mFeatureQuery[k], mListFeatureDB[i]) <= ZinImageLib.Threshold)
+                    //Neu do sai khac thoa man muc cho phep && chua co trong Result --> Add vao result
+                    if (SimilitaryMeasure(mFeatureQuery[k], mListFeatureDB[i]) <= ZinImageGrid.Threshold && !listResult.Contains(mListFeatureDB[i]))
                     {
-                        //Neu anh da ton tai --> ko add vao result
-                        int check = 0;
-                        for (int j = 0; j < listResult.Count; j++)
-                            if (listResult.Count > 0 && listResult[j].ImagePath == mListFeatureDB[i].ImagePath)
-                                check++;
-
-                        if (check == 0)
-                            listResult.Add(mListFeatureDB[i]);
+                        listResult.Add(mListFeatureDB[i]);
                     }
                 }
 
@@ -171,24 +150,13 @@ namespace Image_Content_Search
 
             Bitmap bmpTemp;
             int x = 308;
-            int y = 83;
-            int row = 0;
-            int col = 0;
+            int y = 100;
             for (int i = 0; i < listResult.Count; i++)
             {
                 //Lay tung anh ra
                 bmpTemp = (Bitmap)Bitmap.FromFile(listResult[i].ImagePath);
 
-                gr.DrawImage(bmpTemp, x + 300 * col, y + 160 * row);
-
-                col++;
-
-                if ((i + 1) % 2 == 0)
-                {
-                    //xuong dong
-                    row++;
-                    col = 0;
-                }
+                gr.DrawImage(bmpTemp, x + 220 * i, y);
             }
 
         }
@@ -199,7 +167,7 @@ namespace Image_Content_Search
             int res;
             //Kiểm tra trục phụ. Neu khac nhau qua lon --> loai bo
             if (Math.Abs(f1.MinorAxis - f2.MinorAxis) > 2)
-                res = ZinImageLib.Threshold + 1; //Cho qua nguong
+                res = ZinImageGrid.Threshold + 1; //Cho qua nguong
             else
                 //Kiem tra xau bit
                 res = BitsDifferent(f1.BitSequence, f2.BitSequence);
@@ -226,6 +194,8 @@ namespace Image_Content_Search
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            lblBitString.Text = "";
+            lblResultCount.Text = "";
             //Set path
             mPath = Directory.GetCurrentDirectory() + "\\FeatureDB.xml";
             //mPath = Application.StartupPath;
