@@ -35,7 +35,6 @@
             this.ilResult = new System.Windows.Forms.ImageList(this.components);
             this.ofdBrowseImage = new System.Windows.Forms.OpenFileDialog();
             this.gbQuery = new System.Windows.Forms.GroupBox();
-            this.pbExtractedObject = new System.Windows.Forms.PictureBox();
             this.btnNextObject = new System.Windows.Forms.Button();
             this.btnPrevObject = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -48,7 +47,6 @@
             this.lblResultCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbQueryImage)).BeginInit();
             this.gbQuery.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbExtractedObject)).BeginInit();
             this.SuspendLayout();
             // 
             // pbQueryImage
@@ -101,14 +99,6 @@
             this.gbQuery.TabStop = false;
             this.gbQuery.Text = "Ảnh cần tìm";
             // 
-            // pbExtractedObject
-            // 
-            this.pbExtractedObject.Location = new System.Drawing.Point(28, 380);
-            this.pbExtractedObject.Name = "pbExtractedObject";
-            this.pbExtractedObject.Size = new System.Drawing.Size(200, 150);
-            this.pbExtractedObject.TabIndex = 0;
-            this.pbExtractedObject.TabStop = false;
-            // 
             // btnNextObject
             // 
             this.btnNextObject.Location = new System.Drawing.Point(71, 341);
@@ -142,8 +132,9 @@
             this.lblBitString.ForeColor = System.Drawing.Color.Crimson;
             this.lblBitString.Location = new System.Drawing.Point(393, 8);
             this.lblBitString.Name = "lblBitString";
-            this.lblBitString.Size = new System.Drawing.Size(0, 13);
+            this.lblBitString.Size = new System.Drawing.Size(49, 13);
             this.lblBitString.TabIndex = 14;
+            this.lblBitString.Text = "1010101";
             // 
             // label2
             // 
@@ -169,26 +160,26 @@
             // 
             this.label4.AutoSize = true;
             this.label4.ForeColor = System.Drawing.Color.Brown;
-            this.label4.Location = new System.Drawing.Point(464, 351);
+            this.label4.Location = new System.Drawing.Point(441, 351);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(139, 13);
+            this.label4.Size = new System.Drawing.Size(162, 13);
             this.label4.TabIndex = 15;
-            this.label4.Text = "Trục chính song song với X";
+            this.label4.Text = "Xoay trục chính song song với X";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.ForeColor = System.Drawing.Color.Brown;
-            this.label5.Location = new System.Drawing.Point(716, 351);
+            this.label5.Location = new System.Drawing.Point(293, 492);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(62, 13);
+            this.label5.Size = new System.Drawing.Size(175, 13);
             this.label5.TabIndex = 15;
-            this.label5.Text = "Phủ lưới lên";
+            this.label5.Text = "Phủ lưới lên cả 4 trường hợp lật ảnh";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(305, 49);
+            this.label6.Location = new System.Drawing.Point(305, 68);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(88, 13);
             this.label6.TabIndex = 13;
@@ -198,10 +189,11 @@
             // 
             this.lblResultCount.AutoSize = true;
             this.lblResultCount.ForeColor = System.Drawing.Color.Crimson;
-            this.lblResultCount.Location = new System.Drawing.Point(397, 48);
+            this.lblResultCount.Location = new System.Drawing.Point(397, 67);
             this.lblResultCount.Name = "lblResultCount";
-            this.lblResultCount.Size = new System.Drawing.Size(0, 13);
+            this.lblResultCount.Size = new System.Drawing.Size(41, 13);
             this.lblResultCount.TabIndex = 16;
+            this.lblResultCount.Text = "Số ảnh";
             // 
             // frmMain
             // 
@@ -216,7 +208,6 @@
             this.Controls.Add(this.lblBitString);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.pbExtractedObject);
             this.Controls.Add(this.btnPrevObject);
             this.Controls.Add(this.btnNextObject);
             this.Controls.Add(this.gbQuery);
@@ -227,7 +218,6 @@
             this.Load += new System.EventHandler(this.frmMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbQueryImage)).EndInit();
             this.gbQuery.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbExtractedObject)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -243,7 +233,6 @@
         private System.Windows.Forms.GroupBox gbQuery;
         private System.Windows.Forms.Button btnNextObject;
         private System.Windows.Forms.Button btnPrevObject;
-        private System.Windows.Forms.PictureBox pbExtractedObject;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblBitString;
         private System.Windows.Forms.Label label2;

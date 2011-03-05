@@ -34,7 +34,7 @@ namespace Image_Features_Extraction
             Bitmap bmpOrigin = (Bitmap)Bitmap.FromFile(pbImageInDB.ImageLocation);
 
             //Tách đối tượng ra khỏi ảnh --> tạo ảnh mới chỉ chứa khít đối tượng (shape)
-            Bitmap bmpExtracted = ZinImageLib.ExtractShape(bmpOrigin);
+            Bitmap bmpExtracted = ZinImageGrid.ExtractShape(bmpOrigin);
             pbExtractedObject.Image = bmpExtracted;
 
             //A. Hòa: tìm x1, y1, x2, y2 của trục chính (dài nhất)
@@ -47,35 +47,36 @@ namespace Image_Features_Extraction
             gr.DrawLine(myPen, x1 + 253, y1 + 414, x2 + 253, y2 + 414);
 
             //Tìm góc --> xoay. Sau khi xoay sẽ xuất hiện nền thừa --> tìm HCN cơ sở
-            double angle = ZinImageLib.AngleMajorAndX(x1, y1, x2, y2); //!!! Important
+            double angle = ZinImageGrid.AngleMajorAndX(x1, y1, x2, y2); //!!! Important
             Bitmap bmpRotated = ZinImageLib.RotateImage(bmpExtracted, (float)angle); //Hàm Rotate2: ko làm thay đổi size --> Ko ổn
             //pbImageRotated.Image = bmpRotated;
-            ZinImageLib.TransparentToWhite(bmpRotated);
-            bmpRotated = ZinImageLib.ExtractShape(bmpRotated);
+            ZinImageGrid.TransparentToWhite(bmpRotated);
+            bmpRotated = ZinImageGrid.ExtractShape(bmpRotated);
             gr.DrawImage(bmpRotated, 491, 414);
 
             //Sau khi xoay xong thì mới Resize về kích thước cố định
-            Bitmap bmpResized = ZinImageLib.Resize(bmpRotated, ZinImageLib.WidthStandard, ZinImageLib.WidthStandard * bmpRotated.Height / bmpRotated.Width, true);
+            Bitmap bmpResized = ZinImageLib.Resize(bmpRotated, ZinImageGrid.WidthStandard, ZinImageGrid.WidthStandard * bmpRotated.Height / bmpRotated.Width, true);
+            //Bitmap bmpResized = ZinImageLib.ResizeImage(bmpRotated, ZinImageLib.WidthStandard, ZinImageLib.WidthStandard * bmpRotated.Height / bmpRotated.Width); //Bị thay đổi -> nguy hiểm
             gr.DrawImage(bmpResized, 491, 196);
 
             //Phủ lưới lên
             for (int i = 0; i < bmpResized.Width; i++)
-                if (i % ZinImageLib.CellWidth == 0)
+                if (i % ZinImageGrid.CellWidth == 0)
                 {
                     gr.DrawLine(Pens.Red, i + 491, 0 + 196, i + 491, bmpResized.Height + 196);
                 }
 
             for (int j = 0; j < bmpResized.Height; j++)
-                if (j % ZinImageLib.CellHeight == 0)
+                if (j % ZinImageGrid.CellHeight == 0)
                     gr.DrawLine(Pens.Red, 0 + 491, j + 196, bmpResized.Width + 491, j + 196);
 
 
             //Tô hình dạng thành đen đặc trước khi đếm
             Bitmap bmpBlackFill = (Bitmap)bmpResized.Clone();
-            ZinImageLib.FillSolidBlack(bmpBlackFill);
+            ZinImageGrid.FillSolidBlack(bmpBlackFill);
 
             //Hien thi chuoi bit
-            lblBitString.Text = ZinImageLib.GetBitString(bmpBlackFill);
+            lblBitString.Text = ZinImageGrid.DisplayBitString(ZinImageGrid.GetBitString(bmpBlackFill));
 
             //gr.Dispose();
         }
@@ -195,29 +196,28 @@ namespace Image_Features_Extraction
                 bmpTemp = (Bitmap)Bitmap.FromFile(FileArray[i].ToString());
 
                 //Tách đối tượng ra khỏi ảnh --> tạo ảnh mới chỉ chứa khít đối tượng (shape)
-                Bitmap bmpExtracted = ZinImageLib.ExtractShape(bmpTemp);
+                Bitmap bmpExtracted = ZinImageGrid.ExtractShape(bmpTemp);
 
                 //A. Hòa: tìm x1, y1, x2, y2 của trục chính (dài nhất)
                 int x1, y1, x2, y2;
                 ImageFuncLib.getPoint(out x1, out y1, out x2, out y2, bmpExtracted);
  
                 //Tìm góc --> xoay. Sau khi xoay sẽ xuất hiện nền thừa --> tìm HCN cơ sở
-                double angle = ZinImageLib.AngleMajorAndX(x1, y1, x2, y2); //!!! Important
+                double angle = ZinImageGrid.AngleMajorAndX(x1, y1, x2, y2); //!!! Important
                 Bitmap bmpRotated = ZinImageLib.RotateImage(bmpExtracted, (float)angle); //Hàm Rotate2: ko làm thay đổi size --> Ko ổn
-                ZinImageLib.TransparentToWhite(bmpRotated);
-                bmpRotated = ZinImageLib.ExtractShape(bmpRotated);
+                ZinImageGrid.TransparentToWhite(bmpRotated);
+                bmpRotated = ZinImageGrid.ExtractShape(bmpRotated);
 
                 //Sau khi xoay xong thì mới Resize về kích thước cố định
-                Bitmap bmpResized = ZinImageLib.Resize(bmpRotated, ZinImageLib.WidthStandard, ZinImageLib.WidthStandard * bmpRotated.Height / bmpRotated.Width, true);
-
+                Bitmap bmpResized = ZinImageLib.Resize(bmpRotated, ZinImageGrid.WidthStandard, ZinImageGrid.WidthStandard * bmpRotated.Height / bmpRotated.Width, true);
 
                 //Tô hình dạng thành đen đặc trước khi đếm
                 Bitmap bmpBlackFill = (Bitmap)bmpResized.Clone();
-                ZinImageLib.FillSolidBlack(bmpBlackFill);
+                ZinImageGrid.FillSolidBlack(bmpBlackFill);
                 //Luu XML ============================
                 FeatureInfo objInfo = new FeatureInfo();
-                objInfo.BitSequence = ZinImageLib.GetBitString(bmpBlackFill);
-                objInfo.MinorAxis = ZinImageLib.GetMinorAxisLen(bmpBlackFill);
+                objInfo.BitSequence = ZinImageGrid.GetBitString(bmpBlackFill);
+                objInfo.MinorAxis = ZinImageGrid.GetMinorAxisLen(bmpBlackFill);
                 objInfo.ImagePath = FileArray[i].ToString();
 
                 //đưa vào  XML

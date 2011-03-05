@@ -11,13 +11,6 @@ namespace Image_Processing_Library
 {
     public class ZinImageLib
     {
-        //Các hằng số
-        public static int WidthStandard = 192; //độ rộng ảnh === Độ dài trục chính (vì song song với X)
-        public static int CellWidth = 24; //độ rộng của Cell grid
-        public static int CellHeight = 24; //độ cao của Cell grid
-        public static int PercentCovered = 15; //ô lưới bị phủ >= 15%
-        public static int Threshold = 5; //số bít cho phép khác nhau
-
         #region Chuyển sang ảnh nhị phân ( đen trắng )
         public static bool ToBinaryImage(Bitmap b, int n)
         {
@@ -472,213 +465,70 @@ namespace Image_Processing_Library
             return rotatedBmp;
         }
 
-
-        /// <summary>
-        /// Chiếu ảnh lên trục X (dồn cột)
-        /// </summary>
-        /// <param name="ArrPixel"></param>
-        /// <param name="b"></param>
-        private static void FindOnAxisX(out int MinX, out int MaxX, Bitmap b)
+        //Hàm lật ảnh
+        public static void Flip(Bitmap b, bool bHorz, bool bVert)
         {
-            int[] ArrPixel = new int[b.Width];
-            int temp;
+            Point[,] ptFlip = new Point[b.Width, b.Height];
 
-            //Chiếu ảnh lên trục X
-            for (int i = 0; i < b.Width; i++)
-            {
-                temp = 0;
-                for (int j = 0; j < b.Height; j++)
-                    if (b.GetPixel(i, j).R + b.GetPixel(i, j).G + b.GetPixel(i, j).B == 0) //điểm đen
-                    {
-                        temp++;
-                        break; //chi can temp = 1 (khac 0) la duoc roi
-                    }
+            int nWidth = b.Width;
+            int nHeight = b.Height;
 
-                ArrPixel[i] = temp;
-            }
-
-            //Tìm vị trí MinX, MaxX có chứa điểm ảnh đối tượng
-            MinX = 0;
-            MaxX = ArrPixel.Length - 1; //phần tử cuối cùng của mảng
-            while (ArrPixel[MinX] == 0) MinX++;
-            while (ArrPixel[MaxX] == 0) MaxX--;
-        }
-
-        /// <summary>
-        /// Chiếu ảnh lên trục Y (dồn hàng)
-        /// </summary>
-        /// <param name="ArrPixel"></param>
-        /// <param name="b"></param>
-        private static void FindOnAxisY(out int MinY, out int MaxY, Bitmap b)
-        {
-            int[] ArrPixel = new int[b.Height];
-            int temp;
-
-            //Chiếu ảnh lên trục Y
-            for (int j = 0; j < b.Height; j++)
-            {
-                temp = 0;
-                for (int i = 0; i < b.Width; i++)
-                    if (b.GetPixel(i, j).R + b.GetPixel(i, j).G + b.GetPixel(i, j).B == 0) //điểm đen
-                    {
-                        temp++;
-                        break; //chi can temp = 1 (khac 0) la duoc roi
-                    }
-
-                ArrPixel[j] = temp;
-            }
-
-            //Tìm vị trí MinY, MaxY có chứa điểm ảnh đối tượng
-            MinY = 0;
-            MaxY = ArrPixel.Length - 1; //phần tử cuối cùng của mảng
-            while (ArrPixel[MinY] == 0) MinY++;
-            while (ArrPixel[MaxY] == 0) MaxY--;
-        }
-
-        /// <summary>
-        /// Tìm HCN cơ sở bao khít đối tượng (shape), có độ dài = trục chính của đối tượng
-        /// (Tạm thời chỉ sử dụng ảnh Nhị phân nền trắng, hình đen)
-        /// </summary>
-        /// <param name="img"></param>
-        /// <returns></returns>
-        private static Rectangle FindRectangleBound(Bitmap b)
-        {
-            int MinX, MaxX, MinY, MaxY;
-
-            //Chiếu ảnh lên trục X --> tim duoc hinh chieu tren truc X
-            FindOnAxisX(out MinX, out MaxX, b);
-
-            //Chiếu ảnh lên trục Y --> tim duoc hinh chieu tren truc Y
-            FindOnAxisY(out MinY, out MaxY, b);
-
-            Rectangle recResult = new Rectangle(MinX, MinY, MaxX - MinX, MaxY - MinY);
-
-            return recResult;
-        }
-
-        /// <summary>
-        /// Trích hình chữ nhật phủ đối tượng từ ảnh gốc
-        /// </summary>
-        /// <param name="img">ảnh gốc</param>
-        /// <param name="width">độ rộng của HCN</param>
-        /// <param name="height">độ cao của HCN</param>
-        /// <param name="x">Tọa độ x bắt đầu HCN</param>
-        /// <param name="y">Tọa độ y bắt đầu HCN</param>
-        /// <returns>Bitmap hoặc Image</returns>
-        public static Bitmap ExtractShape(Bitmap src)
-        {
-            Rectangle rec = FindRectangleBound(src);
-            Bitmap dst = src.Clone(rec, src.PixelFormat);
-            return dst;
-        }
-
-        //Tìm góc giữa trục chính và trục X (chú ý: hàm xoay chỉ xoay theo chiều kim đồng hồ)
-        public static double AngleMajorAndX(int x1, int y1, int x2, int y2)
-        {
-            int a = Math.Abs(x1 - x2);
-            int b = Math.Abs(y1 - y2);
-
-            double angle;
-
-            if (b == 0)
-                angle = 0;
-            else
-                angle = 90 - Math.Atan((float)a / b) * 180 / Math.PI; //Chu y: phai ep kieu Float
-
-            //Xét trường hợp xoay hướng nào cho phù hợp
-            if (x1 < x2 && y1 < y2)
-                angle = -angle;
-
-            return angle;
-        }
-
-        //Tô đen vùng trong hình dạng
-        public static void FillSolidBlack(Bitmap bmp)
-        {
-            //Duyệt từng cột (theo trục X)
-            for (int i = 0; i < bmp.Width; i++)
-            {
-                //Duyệt từ trên
-                int k = 0;
-                while (k < bmp.Height && bmp.GetPixel(i, k).R == 255) k++; //gặp điểm đen (biên ảnh) thì dừng
-                //Duyệt từ dưới
-                int h = bmp.Height - 1;
-                while (h >= 0 && bmp.GetPixel(i, h).R == 255) h--; //gặp điểm đen (biên ảnh) thì dừng
-                //Tô đen vùng trong hình
-                for (int j = k; j < h; j++)
-                    bmp.SetPixel(i, j, Color.Black);
-            }
-        }
-
-        //Đổi điểm trong suốt --> trắng
-        public static void TransparentToWhite(Bitmap bmp)
-        {
-            for (int i = 0; i < bmp.Width; i++)
-                for (int j = 0; j < bmp.Height; j++)
-                    if (bmp.GetPixel(i, j).A == 0)
-                        bmp.SetPixel(i, j, Color.White);
-        }
-
-
-        //Đếm số điểm đen trong 1 cell
-        private static int CountBlackDot(Bitmap bmpCell, int cellX1, int cellY1, int cellX2, int cellY2)
-        {
-            int count = 0;
-            for (int i = cellX1; i < cellX2; i++)
-                for (int j = cellY1; j < cellY2; j++)
-                    if (bmpCell.GetPixel(i, j).R == 0)
-                        count++;
-            return count;
-        }
-
-        //Tìm xâu bít
-        public static string GetBitString(Bitmap bmp)
-        {
-            string BitString = "";
-            //duyet tung Cell
-
-            int GridCols = bmp.Width / ZinImageLib.CellWidth; //Truc chinh
-            int GridRows = bmp.Height / ZinImageLib.CellHeight; //Truc phu
-            if (bmp.Height % ZinImageLib.CellHeight != 0)
-                GridRows += 1; //Lam tron len
-
-            for (int j = 0; j < GridRows; j++)
-            {
-                for (int i = 0; i < GridCols; i++)
+            for (int x = 0; x < nWidth; ++x)
+                for (int y = 0; y < nHeight; ++y)
                 {
-                    int cellX1 = i * ZinImageLib.CellWidth;
-                    int cellY1 = j * ZinImageLib.CellHeight;
-                    int cellX2 = i * ZinImageLib.CellWidth + ZinImageLib.CellWidth;
-                    int cellY2 = j * ZinImageLib.CellHeight + ZinImageLib.CellHeight;
+                    ptFlip[x, y].X = (bHorz) ? nWidth - (x + 1) : x;
+                    ptFlip[x, y].Y = (bVert) ? nHeight - (y + 1) : y;
+                }
 
-                    //Dong cuoi cung
-                    if (j == GridRows - 1)
+            OffsetFilterAbs(b, ptFlip);
+        }
+
+        public static void OffsetFilterAbs(Bitmap b, Point[,] offset)
+        {
+            Bitmap bSrc = (Bitmap)b.Clone();
+
+            // GDI+ still lies to us - the return format is BGR, NOT RGB.
+            BitmapData bmData = b.LockBits(new Rectangle(0, 0, b.Width, b.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+            BitmapData bmSrc = bSrc.LockBits(new Rectangle(0, 0, bSrc.Width, bSrc.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+
+            int scanline = bmData.Stride;
+
+            System.IntPtr Scan0 = bmData.Scan0;
+            System.IntPtr SrcScan0 = bmSrc.Scan0;
+
+            unsafe
+            {
+                byte* p = (byte*)(void*)Scan0;
+                byte* pSrc = (byte*)(void*)SrcScan0;
+
+                int nOffset = bmData.Stride - b.Width * 3;
+                int nWidth = b.Width;
+                int nHeight = b.Height;
+
+                int xOffset, yOffset;
+
+                for (int y = 0; y < nHeight; ++y)
+                {
+                    for (int x = 0; x < nWidth; ++x)
                     {
-                        cellY2 = bmp.Height;
-                    }
+                        xOffset = offset[x, y].X;
+                        yOffset = offset[x, y].Y;
 
-                    //Kiem tra xem phu bao nhieu % grid cell
-                    int TotalDot = (cellX2 - cellX1) * (cellY2 - cellY1); //Tong so diem
-                    int TotalBlack = CountBlackDot(bmp, cellX1, cellY1, cellX2, cellY2);
-                    float TotalPerOverlap = (float)TotalBlack/TotalDot * 100;
-                    //Kiem tra %
-                    if (TotalPerOverlap >= (float)ZinImageLib.PercentCovered)
-                        BitString += "1";
-                    else
-                        BitString += "0";
+                        if (yOffset >= 0 && yOffset < nHeight && xOffset >= 0 && xOffset < nWidth)
+                        {
+                            p[0] = pSrc[(yOffset * scanline) + (xOffset * 3)];
+                            p[1] = pSrc[(yOffset * scanline) + (xOffset * 3) + 1];
+                            p[2] = pSrc[(yOffset * scanline) + (xOffset * 3) + 2];
+                        }
+
+                        p += 3;
+                    }
+                    p += nOffset;
                 }
             }
 
-            return BitString;
-        }
-
-        //Tính độ cao trục phụ (so dong cua Grid)
-        public static int GetMinorAxisLen(Bitmap bmp)
-        {
-            int GridRows = bmp.Height / ZinImageLib.CellHeight; //Truc phu
-            if (bmp.Height % ZinImageLib.CellHeight != 0)
-                GridRows += 1;
-            return GridRows;
+            b.UnlockBits(bmData);
+            bSrc.UnlockBits(bmSrc);
         }
 
     }
