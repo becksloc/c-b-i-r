@@ -86,7 +86,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ImagesDB\" />
+    <Content Include="ImagesDB\ChuL1.bmp" />
+    <Content Include="ImagesDB\ChuL2.bmp" />
+    <Content Include="ImagesDB\ChuL3.bmp" />
+    <Content Include="ImagesDB\ChuL4.bmp" />
+    <Content Include="ImagesDB\TamGiac1.bmp" />
+    <Content Include="ImagesDB\TamGiac2.bmp" />
+    <Content Include="ImagesDB\TamGiac3.bmp" />
+    <Content Include="ImagesDB\TamGiac4.bmp" />
+    <Content Include="ImagesDB\TamGiac5.bmp" />
+    <Content Include="ImagesDB\TamGiac6.bmp" />
+    <Content Include="ImagesDB\TamGiac7.bmp" />
+    <Content Include="ImagesDB\Vuong1.bmp" />
+    <Content Include="ImagesDB\Vuong2.bmp" />
+    <Content Include="ImagesDB\Vuong3.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
