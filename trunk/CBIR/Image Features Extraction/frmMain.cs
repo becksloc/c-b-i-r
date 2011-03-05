@@ -15,7 +15,6 @@ namespace Image_Features_Extraction
     public partial class frmMain : Form
     {
         string mPath; //duong dan toi thu muc chua XML
-        //List<FeatureInfo> mListFeatureDB;
 
         ArrayList FileArray;
         ArrayList FileTypes;
@@ -75,15 +74,10 @@ namespace Image_Features_Extraction
             Bitmap bmpBlackFill = (Bitmap)bmpResized.Clone();
             ZinImageLib.FillSolidBlack(bmpBlackFill);
 
-            //A. Hòa: trích chuỗi, trục
-            string BitSeq = ZinImageLib.GetBitString(bmpBlackFill);
-            lblBitString.Text = BitSeq;
-            //Gán vào mFeatureQuery
-            //mFeatureQuery.BitSequence = 
-            //mFeatureQuery.MinorAxis = 
+            //Hien thi chuoi bit
+            lblBitString.Text = ZinImageLib.GetBitString(bmpBlackFill);
 
             //gr.Dispose();
-
         }
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -216,20 +210,17 @@ namespace Image_Features_Extraction
                 //Sau khi xoay xong thì mới Resize về kích thước cố định
                 Bitmap bmpResized = ZinImageLib.Resize(bmpRotated, ZinImageLib.WidthStandard, ZinImageLib.WidthStandard * bmpRotated.Height / bmpRotated.Width, true);
 
+
                 //Tô hình dạng thành đen đặc trước khi đếm
                 Bitmap bmpBlackFill = (Bitmap)bmpResized.Clone();
                 ZinImageLib.FillSolidBlack(bmpBlackFill);
-
-
                 //Luu XML ============================
                 FeatureInfo objInfo = new FeatureInfo();
                 objInfo.BitSequence = ZinImageLib.GetBitString(bmpBlackFill);
                 objInfo.MinorAxis = ZinImageLib.GetMinorAxisLen(bmpBlackFill);
                 objInfo.ImagePath = FileArray[i].ToString();
 
-                //đưa vào list & XML
-                //mListFeatureDB.Add(objInfo);
-
+                //đưa vào  XML
                 objCtrl.Add(objInfo);
             }
 

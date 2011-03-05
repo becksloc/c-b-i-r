@@ -640,7 +640,7 @@ namespace Image_Processing_Library
             int GridCols = bmp.Width / ZinImageLib.CellWidth; //Truc chinh
             int GridRows = bmp.Height / ZinImageLib.CellHeight; //Truc phu
             if (bmp.Height % ZinImageLib.CellHeight != 0)
-                GridRows += 1;
+                GridRows += 1; //Lam tron len
 
             for (int j = 0; j < GridRows; j++)
             {
@@ -657,14 +657,16 @@ namespace Image_Processing_Library
                         cellY2 = bmp.Height;
                     }
 
-
-                    if (CountBlackDot(bmp, cellX1, cellY1, cellX2, cellY2) > ZinImageLib.PercentCovered)
+                    //Kiem tra xem phu bao nhieu % grid cell
+                    int TotalDot = (cellX2 - cellX1) * (cellY2 - cellY1); //Tong so diem
+                    int TotalBlack = CountBlackDot(bmp, cellX1, cellY1, cellX2, cellY2);
+                    float TotalPerOverlap = (float)TotalBlack/TotalDot * 100;
+                    //Kiem tra %
+                    if (TotalPerOverlap >= (float)ZinImageLib.PercentCovered)
                         BitString += "1";
                     else
                         BitString += "0";
                 }
-
-                BitString += "   ";
             }
 
             return BitString;

@@ -53,7 +53,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(24, 26);
+            this.label1.Location = new System.Drawing.Point(312, 357);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(119, 13);
             this.label1.TabIndex = 7;
@@ -61,7 +61,7 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(275, 21);
+            this.btnAdd.Location = new System.Drawing.Point(27, 26);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 8;
@@ -71,7 +71,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(356, 21);
+            this.btnDelete.Location = new System.Drawing.Point(108, 26);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 9;
@@ -80,7 +80,7 @@
             // 
             // btnExtract
             // 
-            this.btnExtract.Location = new System.Drawing.Point(491, 21);
+            this.btnExtract.Location = new System.Drawing.Point(247, 26);
             this.btnExtract.Name = "btnExtract";
             this.btnExtract.Size = new System.Drawing.Size(185, 23);
             this.btnExtract.TabIndex = 10;
@@ -189,7 +189,7 @@
             // 
             this.lblBitString.AutoSize = true;
             this.lblBitString.ForeColor = System.Drawing.Color.Crimson;
-            this.lblBitString.Location = new System.Drawing.Point(576, 72);
+            this.lblBitString.Location = new System.Drawing.Point(457, 55);
             this.lblBitString.Name = "lblBitString";
             this.lblBitString.Size = new System.Drawing.Size(49, 13);
             this.lblBitString.TabIndex = 22;
@@ -198,7 +198,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(488, 73);
+            this.label6.Location = new System.Drawing.Point(457, 36);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(81, 13);
             this.label6.TabIndex = 21;
@@ -208,7 +208,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(724, 576);
+            this.ClientSize = new System.Drawing.Size(757, 576);
             this.Controls.Add(this.lblBitString);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);

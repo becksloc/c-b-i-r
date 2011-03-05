@@ -86,8 +86,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ImagesQuery\a.bmp" />
-    <Content Include="ImagesQuery\b.bmp" />
+    <Folder Include="ImagesQuery\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

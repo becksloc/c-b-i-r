@@ -15,7 +15,7 @@ namespace Image_Content_Search
     {
         string mPath;
         List<FeatureInfo> mListFeatureDB;
-        FeatureInfo mFeatureQuery = new FeatureInfo();
+        List<FeatureInfo> mFeatureQuery = new List<FeatureInfo>();
         
         public frmMain()
         {
@@ -77,19 +77,49 @@ namespace Image_Content_Search
                     if (j % ZinImageLib.CellHeight == 0)
                         gr.DrawLine(Pens.Red, 0 + 674, j + 380, bmpResized.Width + 674, j + 380);
 
-                //Tô hình dạng thành đen đặc trước khi đếm
-                Bitmap bmpBlackFill = (Bitmap)bmpResized.Clone();
-                ZinImageLib.FillSolidBlack(bmpBlackFill);
 
-                ///gr.DrawImage(bmpBlackFill, this.Width/2, this.Height/2 - 100);
+                mFeatureQuery.Clear();
+                lblBitString.Text = "";
 
-                //A. Hòa: trích chuỗi, trục
-                //lblBitString.Text = ImageFuncLib.getImgString(ZinImageLib.CellWidth, ZinImageLib.CellHeight, ZinImageLib.PercentCovered, bmpBlackFill);
-                string BitSeq = ZinImageLib.GetBitString(bmpBlackFill);
-                lblBitString.Text = BitSeq;
-                //Gán vào mFeatureQuery
-                mFeatureQuery.BitSequence = BitSeq;
-                mFeatureQuery.MinorAxis = ZinImageLib.GetMinorAxisLen(bmpBlackFill);
+                Bitmap[] bmpAllCases = new Bitmap[4];
+                bmpAllCases[0] = (Bitmap)bmpResized.Clone();
+                bmpAllCases[1] = ZinImageLib.RotateImage(bmpResized, 180); //Quay cac goc nay ko lam thay doi width
+                //-------------VE THU XEM NAO-----------------------
+                gr.DrawImage(bmpAllCases[1], 674, 380 + 150);
+
+                //Phủ lưới lên
+                for (int i = 0; i < bmpResized.Width; i++)
+                    if (i % ZinImageLib.CellWidth == 0)
+                    {
+                        gr.DrawLine(Pens.Red, i + 674, 0 + 380 + 150, i + 674, bmpResized.Height + 380 + 150);
+                    }
+
+                for (int j = 0; j < bmpResized.Height; j++)
+                    if (j % ZinImageLib.CellHeight == 0)
+                        gr.DrawLine(Pens.Red, 0 + 674, j + 380 + 150, bmpResized.Width + 674, j + 380 + 150);
+
+                //------------------------------------------------
+
+                //bmpAllCases[2] = Flip bmpBlackFill
+                //bmpAllCases[3] = Flip bmpAllCase[1]
+                for (int i = 0; i < 2; i++)
+                {
+                    //Tô hình dạng thành đen đặc trước khi đếm
+                    Bitmap bmpBlackFill = (Bitmap)bmpAllCases[i].Clone();
+                    ZinImageLib.FillSolidBlack(bmpBlackFill);
+
+                    gr.DrawImage(bmpBlackFill, 458 - i * 250, 380 + 150);
+
+                    string BitSeq = ZinImageLib.GetBitString(bmpBlackFill);
+                    lblBitString.Text += BitSeq + Environment.NewLine;
+
+                    //Gán vào mFeatureQuery
+                    FeatureInfo temp = new FeatureInfo();
+                    temp.BitSequence = BitSeq;
+                    temp.MinorAxis = ZinImageLib.GetMinorAxisLen(bmpBlackFill);
+                    //Dua vao truy van (se co 4)
+                    mFeatureQuery.Add(temp);                   
+                }
 
                 //gr.Dispose();
                 btnSearch.Enabled = true;
@@ -111,19 +141,30 @@ namespace Image_Content_Search
             mListFeatureDB = objCtrl.GetAll();
 
             //So sánh, neu do do OK --> luu vao mang
-            List<FeatureInfo> listSM = new List<FeatureInfo>();
-            for (int i = 0; i < mListFeatureDB.Count; i++)
+            List<FeatureInfo> listResult = new List<FeatureInfo>();
+            for (int k = 0; k < 2; k++)
             {
-                if (SimilitaryMeasure(mFeatureQuery, mListFeatureDB[i]) <= ZinImageLib.Threshold)
-                    listSM.Add(mListFeatureDB[i]);
+                for (int i = 0; i < mListFeatureDB.Count; i++)
+                {
+                    //Neu do sai khac thoa man muc cho phep
+                    if (SimilitaryMeasure(mFeatureQuery[k], mListFeatureDB[i]) <= ZinImageLib.Threshold)
+                    {
+                        //Neu anh da ton tai --> ko add vao result
+                        int check = 0;
+                        for (int j = 0; j < listResult.Count; j++)
+                            if (listResult.Count > 0 && listResult[j].ImagePath == mListFeatureDB[i].ImagePath)
+                                check++;
+
+                        if (check == 0)
+                            listResult.Add(mListFeatureDB[i]);
+                    }
+                }
+
             }
-
-            //Sap xep listSM de uu tien SM nho len tren
-            //listSM.Sort(
-
+            //Sap xep listResult de uu tien SM nho len tren
 
             //Hien thi Ket qua
-            lblResultCount.Text = listSM.Count + " (ảnh)";
+            lblResultCount.Text = listResult.Count + " (ảnh)";
 
             Graphics gr = CreateGraphics();// Khởi tạo đồ hoạ trên form chính
             //gr.Clear(this.BackColor);
@@ -133,10 +174,11 @@ namespace Image_Content_Search
             int y = 83;
             int row = 0;
             int col = 0;
-            for (int i = 0; i < listSM.Count; i++)
+            for (int i = 0; i < listResult.Count; i++)
             {
                 //Lay tung anh ra
-                bmpTemp = (Bitmap)Bitmap.FromFile(listSM[i].ImagePath);
+                bmpTemp = (Bitmap)Bitmap.FromFile(listResult[i].ImagePath);
+
                 gr.DrawImage(bmpTemp, x + 300 * col, y + 160 * row);
 
                 col++;
@@ -151,7 +193,7 @@ namespace Image_Content_Search
 
         }
 
-
+        //Tinh do tuong tu
         private int SimilitaryMeasure(FeatureInfo f1, FeatureInfo f2)
         {
             int res;
@@ -165,6 +207,7 @@ namespace Image_Content_Search
             return res;
         }
 
+        //Tim so bit tuong ung khac nhau
         private int BitsDifferent(string s1, string s2)
         {
             //Làm cho 2 xâu bằng nhau (thêm 0 vào cuối)
