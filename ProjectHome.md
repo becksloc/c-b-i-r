@@ -1,0 +1,1 @@
+Tìm kiếm dữ liệu trong Cơ sở dữ liệu Đa phương tiện (Multimedia) --> Tìm kiếm ảnh --> Tìm kiếm ảnh dựa vào nội dung --> Tìm kiếm ảnh dựa vào hình dạng --> Tìm kiếm ảnh dựa trên cơ sở lưới vùng
